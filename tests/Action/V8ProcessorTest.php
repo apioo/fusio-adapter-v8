@@ -174,7 +174,9 @@ JAVASCRIPT;
             "title": "foo"
         }
     ],
-    "called": {}
+    "called": {
+        "baz": "bar"
+    }
 }
 JSON;
 
