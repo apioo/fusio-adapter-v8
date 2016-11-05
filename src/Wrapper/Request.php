@@ -61,7 +61,7 @@ class Request implements ObjectInterface
 
     public function getUriFragments()
     {
-        return $this->request->getUriFragments();
+        return $this->request->getUriFragments()->toArray();
     }
 
     public function getParameter($name)
@@ -71,7 +71,7 @@ class Request implements ObjectInterface
 
     public function getParameters()
     {
-        return $this->request->getParameters();
+        return $this->request->getParameters()->toArray();
     }
 
     public function getBody()
