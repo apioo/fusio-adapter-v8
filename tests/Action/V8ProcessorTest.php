@@ -21,7 +21,7 @@
 
 namespace Fusio\Adapter\V8\Tests\Action;
 
-use Fusio\Adapter\Util\Action\UtilCache;
+use Fusio\Adapter\V8\Action\V8Processor;
 use Fusio\Adapter\V8\Tests\DbTestCase;
 use Fusio\Engine\Form\Builder;
 use Fusio\Engine\Form\Container;
@@ -98,7 +98,7 @@ JAVASCRIPT;
         ]);
  
         $body     = Record::fromArray(['foo' => 'bar']);
-        $action   = $this->getActionFactory()->factory(UtilCache::class);
+        $action   = $this->getActionFactory()->factory(V8Processor::class);
         $response = $action->handle($this->getRequest('GET', ['foo' => 'bar'], ['foo' => 'bar'], ['Content-Type' => 'application/json'], $body), $parameters, $this->getContext());
 
         $actual = json_encode($response->getBody());
@@ -115,7 +115,7 @@ JSON;
 
     public function testGetForm()
     {
-        $action  = $this->getActionFactory()->factory(UtilCache::class);
+        $action  = $this->getActionFactory()->factory(V8Processor::class);
         $builder = new Builder();
         $factory = $this->getFormElementFactory();
 
