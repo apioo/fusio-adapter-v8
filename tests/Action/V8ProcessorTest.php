@@ -107,9 +107,13 @@ JAVASCRIPT;
     "method": "GET",
     "header": "application/json",
     "uriFragment": "bar",
-    "uriFragments": null,
+    "uriFragments": {
+        "foo": "bar"
+    },
     "parameter": "bar",
-    "parameters": null,
+    "parameters": {
+        "foo": "bar"
+    },
     "body": {
         "foo": "bar"
     },
