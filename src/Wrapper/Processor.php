@@ -25,7 +25,7 @@ use Doctrine\DBAL\Connection as DBALConnection;
 use Fusio\Engine\ConnectorInterface;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\ProcessorInterface;
-use Fusio\Engine\Request;
+use Fusio\Engine\Request as EngineRequest;
 use PSX\Data\Record\Transformer;
 use PSX\Uri\Uri;
 use PSX\V8\ObjectInterface;
@@ -83,7 +83,7 @@ class Processor implements ObjectInterface
             $method
         );
 
-        return new Request(
+        return new EngineRequest(
             $httpRequest,
             !empty($uriFragments) ? (array) $uriFragments : [],
             !empty($parameters) ? (array) $parameters : [],
