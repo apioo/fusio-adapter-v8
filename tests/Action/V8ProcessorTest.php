@@ -59,12 +59,12 @@ response.setHeaders({
 });
 response.setBody({
     // request
+    method: request.getMethod(),
+    header: request.getHeader('Content-Type'),
     uriFragment: request.getUriFragment('foo'),
     uriFragments: request.getUriFragments(),
     parameter: request.getParameter('foo'),
     parameters: request.getParameters(),
-    header: request.getHeader('Content-Type'),
-    headers: request.getHeaders(),
     body: request.getBody(),
 
     // context
