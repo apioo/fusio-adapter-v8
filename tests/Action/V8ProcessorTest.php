@@ -109,7 +109,7 @@ JSON;
 
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals([], $response->getHeaders());
+        $this->assertEquals(['x-foo' => 'bar'], $response->getHeaders());
         $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
     }
 
