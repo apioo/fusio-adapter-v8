@@ -79,7 +79,7 @@ response.setBody({
     appUrl: context.getApp().getUrl(),
     appScopes: context.getApp().getScopes(),
     appHasScope: context.getApp().hasScope('foo'),
-    appParameters: context.getApp().getParameters(),
+    appParameter: context.getApp().getParameter('foo'),
     appAppKey: context.getApp().getAppKey(),
 
     // user
