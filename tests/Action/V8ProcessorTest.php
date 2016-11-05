@@ -48,6 +48,8 @@ class V8ProcessorTest extends DbTestCase
 
     protected function setUp()
     {
+        parent::setUp();
+
         $action = new Action();
         $action->setId(1);
         $action->setName('baz');
