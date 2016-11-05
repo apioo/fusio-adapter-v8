@@ -104,6 +104,49 @@ JAVASCRIPT;
         $actual = json_encode($response->getBody());
         $expect = <<<JSON
 {
+    "method": "GET",
+    "header": "application/json",
+    "uriFragment": "bar",
+    "uriFragments": null,
+    "parameter": "bar",
+    "parameters": null,
+    "body": {
+        "foo": "bar"
+    },
+    "routeId": 34,
+    "appIsAnonymous": false,
+    "appId": 3,
+    "appUserId": 2,
+    "appStatus": 1,
+    "appName": "Foo-App",
+    "appUrl": "http://google.com",
+    "appScopes": [
+        "foo",
+        "bar"
+    ],
+    "appHasScope": true,
+    "appParameter": "bar",
+    "appAppKey": "5347307d-d801-4075-9aaa-a21a29a448c5",
+    "userIsAnonymous": false,
+    "userId": 2,
+    "userStatus": 0,
+    "userName": "Consumer",
+    "result": [
+        {
+            "content": "bar",
+            "date": "2015-02-27 19:59:15",
+            "id": "1",
+            "tags": "[\"foo\",\"bar\"]",
+            "title": "foo"
+        },
+        {
+            "content": "foo",
+            "date": "2015-02-27 19:59:15",
+            "id": "2",
+            "tags": "[\"foo\"]",
+            "title": "bar"
+        }
+    ]
 }
 JSON;
 
