@@ -46,12 +46,39 @@ class V8ProcessorTest extends DbTestCase
 {
     use EngineTestCaseTrait;
 
+    protected function setUp()
+    {
+        $action = new Action();
+        $action->setId(1);
+        $action->setName('baz');
+        $action->setClass(CallbackAction::class);
+        $action->setConfig([
+            'callback' => function(Response\FactoryInterface $response){
+                return $response->build(200, [], ['baz' => 'bar']);
+            },
+        ]);
+
+        $this->getActionRepository()->add($action);
+    }
+
     public function testHandle()
     {
         $script = <<<JAVASCRIPT
 
+// get connection and query
 var connection = connector.get('foo');
-var result = connection.fetchAll('SELECT * FROM app_news');
+var result = connection.fetchAll('SELECT * FROM app_news WHERE id = :id', {id: 1});
+
+// call other action
+var called;
+if (!cache.has('bar')) {
+    called = processor.execute('baz', {
+        bar: 'foo'
+    });
+    cache.set('bar', called);
+} else {
+    called = cache.get('bar');
+}
 
 response.setStatusCode(200);
 response.setHeaders({
@@ -88,7 +115,8 @@ response.setBody({
     userStatus: context.getUser().getStatus(),
     userName: context.getUser().getName(),
 
-    result: result
+    result: result,
+    called: called
 });
 
 JAVASCRIPT;
@@ -142,15 +170,9 @@ JAVASCRIPT;
             "id": "1",
             "tags": "[\"foo\",\"bar\"]",
             "title": "foo"
-        },
-        {
-            "content": "foo",
-            "date": "2015-02-27 19:59:15",
-            "id": "2",
-            "tags": "[\"foo\"]",
-            "title": "bar"
         }
-    ]
+    ],
+    "called": {}
 }
 JSON;
 

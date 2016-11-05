@@ -55,6 +55,7 @@ class V8Processor extends ActionAbstract
         $environment->set('response', $response);
         $environment->set('context', new Wrapper\Context($context));
         $environment->set('connector', new Wrapper\Connector($this->connector));
+        $environment->set('processor', new Wrapper\Processor($this->processor, $context));
         $environment->set('http', new Wrapper\Http\Client($this->httpClient));
         $environment->set('cache', new Wrapper\Cache\Provider($this->cacheProvider));
 
