@@ -103,7 +103,8 @@ JAVASCRIPT;
 
         $actual = json_encode($response->getBody());
         $expect = <<<JSON
-{}
+{
+}
 JSON;
 
         $this->assertInstanceOf(ResponseInterface::class, $response);
