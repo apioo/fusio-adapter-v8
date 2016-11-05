@@ -1,0 +1,5 @@
+{
+  "actionClass": [
+    "Fusio\\Adapter\\V8\\Action\\V8Processor"
+  ]
+}
