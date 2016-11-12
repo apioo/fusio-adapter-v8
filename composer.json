@@ -13,7 +13,7 @@
   ],
   "require": {
     "php": ">=7.0",
-    "fusio/engine": "^0.4@dev",
+    "fusio/engine": "^0.5@dev",
     "psx/v8": "^0.1@dev"
   },
   "require-dev": {
