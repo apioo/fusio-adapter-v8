@@ -49,6 +49,10 @@ class V8Processor extends ActionAbstract
 
     public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
     {
+        if (!class_exists('V8\Context')) {
+            throw new \RuntimeException('It looks like the PHP V8 extension is not installed. Please take a look at https://github.com/pinepain/php-v8');
+        }
+
         $response = new Wrapper\Response();
         $environment = new Environment();
         $environment->set('request', new Wrapper\Request($request));
