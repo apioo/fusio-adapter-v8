@@ -21,7 +21,6 @@
 
 namespace Fusio\Adapter\V8\Action;
 
-use Doctrine\DBAL\Connection;
 use Fusio\Adapter\V8\Exception\ScriptException;
 use Fusio\Adapter\V8\Wrapper;
 use Fusio\Engine\ActionAbstract;

@@ -21,15 +21,13 @@
 
 namespace Fusio\Adapter\V8\Wrapper;
 
-use Doctrine\DBAL\Connection as DBALConnection;
-use Fusio\Engine\ConnectorInterface;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\ProcessorInterface;
 use Fusio\Engine\Request as EngineRequest;
 use PSX\Data\Record\Transformer;
+use PSX\Http\Request as HttpRequest;
 use PSX\Uri\Uri;
 use PSX\V8\ObjectInterface;
-use PSX\Http\Request as HttpRequest;
 
 /**
  * Processor
@@ -56,7 +54,7 @@ class Processor implements ObjectInterface
         $this->context   = $context;
     }
 
-    public function execute($actionId, $body, $uriFragments = [], $parameters = [], $method = 'GET')
+    public function execute($actionId, $body = null, $uriFragments = [], $parameters = [], $method = 'GET')
     {
         $request  = $this->buildRequest($body, $uriFragments, $parameters, $method);
         $response = $this->processor->execute($actionId, $request, $this->context);

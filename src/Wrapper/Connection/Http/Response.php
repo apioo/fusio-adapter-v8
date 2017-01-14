@@ -19,57 +19,63 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Fusio\Adapter\V8\Wrapper\Cache;
+namespace Fusio\Adapter\V8\Wrapper\Connection\Http;
 
-use Fusio\Engine\Cache\ProviderInterface;
+use Psr\Http\Message\ResponseInterface;
 use PSX\V8\ObjectInterface;
 
 /**
- * Provider
+ * Response
  *
  * @author  Christoph Kappestein <christoph.kappestein@gmail.com>
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    http://fusio-project.org
  */
-class Provider implements ObjectInterface
+class Response implements ObjectInterface
 {
     /**
-     * @var \Fusio\Engine\Cache\ProviderInterface
+     * @var ResponseInterface
      */
-    protected $provider;
+    protected $response;
 
-    public function __construct(ProviderInterface $provider)
+    public function __construct(ResponseInterface $response)
     {
-        $this->provider = $provider;
+        $this->response = $response;
     }
 
-    public function get($id)
+    public function getStatusCode()
     {
-        return $this->provider->fetch($id);
+        return $this->response->getStatusCode();
     }
 
-    public function has($id)
+    public function getHeaders()
     {
-        return $this->provider->contains($id);
+        $result  = [];
+        $headers = $this->response->getHeaders();
+        foreach ($headers as $name => $values) {
+            $result[$name] = implode(', ', $values);
+        }
+
+        return $result;
     }
 
-    public function set($id, $data, $lifeTime = 0)
+    public function getHeader($name)
     {
-        return $this->provider->save($id, $data, $lifeTime);
+        return $this->response->getHeaderLine($name);
     }
 
-    public function delete($id)
+    public function getBody()
     {
-        return $this->provider->delete($id);
+        return (string) $this->response->getBody();
     }
 
     public function getProperties()
     {
         return [
-            'get'    => [$this, 'get'],
-            'has'    => [$this, 'has'],
-            'set'    => [$this, 'set'],
-            'delete' => [$this, 'delete'],
+            'getStatusCode' => [$this, 'getStatusCode'],
+            'getHeaders'    => [$this, 'getHeaders'],
+            'getHeader'     => [$this, 'getHeader'],
+            'getBody'       => [$this, 'getBody'],
         ];
     }
 }

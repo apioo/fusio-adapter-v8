@@ -22,17 +22,16 @@
 namespace Fusio\Adapter\V8\Wrapper\Connection;
 
 use Doctrine\DBAL\Connection;
-use Fusio\Engine\AdapterInterface;
 use PSX\V8\ObjectInterface;
 
 /**
- * DBAL
+ * Sql
  *
  * @author  Christoph Kappestein <christoph.kappestein@gmail.com>
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    http://fusio-project.org
  */
-class DBAL implements ObjectInterface
+class Sql implements ObjectInterface
 {
     /**
      * @var \Doctrine\DBAL\Connection

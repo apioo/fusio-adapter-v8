@@ -19,57 +19,55 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Fusio\Adapter\V8\Wrapper\Http;
+namespace Fusio\Adapter\V8\Wrapper\Connection;
 
-use Fusio\Engine\ResponseInterface;
+use Fusio\Adapter\V8\Wrapper\Connection\Http\Response;
+use GuzzleHttp\Client;
 use PSX\V8\ObjectInterface;
 
 /**
- * Response
+ * Http
  *
  * @author  Christoph Kappestein <christoph.kappestein@gmail.com>
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    http://fusio-project.org
  */
-class Response implements ObjectInterface
+class Http implements ObjectInterface
 {
     /**
-     * @var ResponseInterface
+     * @var \GuzzleHttp\Client
      */
-    protected $response;
+    protected $connection;
 
-    public function __construct(ResponseInterface $response)
+    /**
+     * @param \GuzzleHttp\Client $connection
+     */
+    public function __construct(Client $connection)
     {
-        $this->response = $response;
+        $this->connection = $connection;
     }
 
-    public function getStatusCode()
+    public function request($uri, $method = 'GET', $headers = [], $body = null)
     {
-        return $this->response->getStatusCode();
-    }
+        $options = [];
 
-    public function getHeaders()
-    {
-        return $this->response->getHeaders();
-    }
+        if (!empty($headers)) {
+            $options['headers'] = (array) $headers;
+        }
 
-    public function getHeader($name)
-    {
-        return $this->response->getHeader($name);
-    }
+        if (!empty($body)) {
+            $options['body'] = (string) $body;
+        }
 
-    public function getBody()
-    {
-        return $this->response->getBody();
+        $response = $this->connection->request($method, $uri, $options);
+
+        return new Response($response);
     }
 
     public function getProperties()
     {
         return [
-            'getStatusCode' => [$this, 'getStatusCode'],
-            'getHeaders'    => [$this, 'getHeaders'],
-            'getHeader'     => [$this, 'getHeader'],
-            'getBody'       => [$this, 'getBody'],
+            'request' => [$this, 'request'],
         ];
     }
 }

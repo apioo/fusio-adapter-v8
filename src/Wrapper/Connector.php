@@ -21,11 +21,14 @@
 
 namespace Fusio\Adapter\V8\Wrapper;
 
-use Doctrine\DBAL\Connection as DBALConnection;
+use Doctrine\DBAL;
+use Elasticsearch;
 use Fusio\Engine\ConnectorInterface;
-use MongoDB\Database;
-use Pheanstalk\Pheanstalk;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
+use GuzzleHttp;
+use MongoDB;
+use Pheanstalk;
+use PhpAmqpLib;
+use Predis;
 use PSX\V8\ObjectInterface;
 
 /**
@@ -51,16 +54,24 @@ class Connector implements ObjectInterface
     {
         $connection = $this->connector->getConnection($name);
 
-        if ($connection instanceof AMQPStreamConnection) {
+        if ($connection instanceof PhpAmqpLib\Connection\AMQPStreamConnection) {
             return new Connection\Amqp($connection);
-        } elseif ($connection instanceof Pheanstalk) {
+        } elseif ($connection instanceof Pheanstalk\Pheanstalk) {
             return new Connection\Beanstalk($connection);
-        } elseif ($connection instanceof DBALConnection) {
-            return new Connection\DBAL($connection);
+        } elseif ($connection instanceof DBAL\Connection) {
+            return new Connection\Sql($connection);
+        } elseif ($connection instanceof Elasticsearch\Client) {
+            return new Connection\Elasticsearch($connection);
+        } elseif ($connection instanceof GuzzleHttp\Client) {
+            return new Connection\Http($connection);
         } elseif ($connection instanceof \Memcached) {
             return new Connection\Memcache($connection);
-        } elseif ($connection instanceof Database) {
+        } elseif ($connection instanceof MongoDB\Database) {
             return new Connection\MongoDB($connection);
+        } elseif ($connection instanceof Predis\Client) {
+            return new Connection\Redis($connection);
+        } elseif ($connection instanceof \SoapClient) {
+            return new Connection\Soap($connection);
         } else {
             return null;
         }

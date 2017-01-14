@@ -19,41 +19,52 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Fusio\Adapter\V8\Wrapper\Http;
+namespace Fusio\Adapter\V8\Wrapper\Connection;
 
-use Fusio\Engine\Http\ClientInterface;
 use PSX\V8\ObjectInterface;
 
 /**
- * Client
+ * Soap
  *
  * @author  Christoph Kappestein <christoph.kappestein@gmail.com>
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    http://fusio-project.org
  */
-class Client implements ObjectInterface
+class Soap implements ObjectInterface
 {
     /**
-     * @var \Fusio\Engine\Http\ClientInterface
+     * @var \SoapClient
      */
-    protected $client;
+    protected $connection;
 
-    public function __construct(ClientInterface $client)
+    /**
+     * @param \SoapClient $connection
+     */
+    public function __construct(\SoapClient $connection)
     {
-        $this->client = $client;
+        $this->connection = $connection;
     }
 
-    public function request($url, $method = 'GET', $headers = [], $body = null)
+    /**
+     * @param string $functionName
+     * @param string $arguments
+     * @return mixed
+     */
+    public function call($functionName, $arguments)
     {
-        $headers = (array) $headers;
+        if (empty($arguments)) {
+            $arguments = [];
+        } else {
+            $arguments = (array) $arguments;
+        }
 
-        return new Response($this->client->request($url, $method, $headers, $body));
+        return $this->connection->__soapCall($functionName, $arguments);
     }
 
     public function getProperties()
     {
         return [
-            'request' => [$this, 'request'],
+            'call' => [$this, 'call'],
         ];
     }
 }

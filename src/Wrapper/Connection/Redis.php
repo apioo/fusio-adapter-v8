@@ -21,26 +21,27 @@
 
 namespace Fusio\Adapter\V8\Wrapper\Connection;
 
+use Predis\Client;
 use PSX\V8\ObjectInterface;
 
 /**
- * Memcache
+ * Redis
  *
  * @author  Christoph Kappestein <christoph.kappestein@gmail.com>
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    http://fusio-project.org
  */
-class Memcache implements ObjectInterface
+class Redis implements ObjectInterface
 {
     /**
-     * @var \Memcached
+     * @var \Predis\Client
      */
     protected $connection;
 
     /**
-     * @param \Memcached
+     * @param \Predis\Client
      */
-    public function __construct(\Memcached $connection)
+    public function __construct(Client $connection)
     {
         $this->connection = $connection;
     }
@@ -57,7 +58,7 @@ class Memcache implements ObjectInterface
 
     public function delete($key)
     {
-        return $this->connection->delete($key);
+        return $this->connection->del((array) $key);
     }
 
     public function getProperties()
