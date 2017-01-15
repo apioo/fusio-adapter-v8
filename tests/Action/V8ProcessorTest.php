@@ -72,15 +72,9 @@ var connection = connector.get('foo');
 var result = connection.fetchAll('SELECT * FROM app_news WHERE id = :id', {id: 1});
 
 // call other action
-var called;
-if (!cache.has('bar')) {
-    called = processor.execute('baz', {
-        bar: 'foo'
-    });
-    cache.set('bar', called);
-} else {
-    called = cache.get('bar');
-}
+var called = processor.execute('baz', {
+    bar: 'foo'
+});
 
 response.setStatusCode(200);
 response.setHeaders({
