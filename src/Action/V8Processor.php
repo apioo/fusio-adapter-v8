@@ -59,6 +59,8 @@ class V8Processor extends ActionAbstract
         $environment->set('context', new Wrapper\Context($context));
         $environment->set('connector', new Wrapper\Connector($this->connector));
         $environment->set('processor', new Wrapper\Processor($this->processor, $context));
+        $environment->set('console', new Wrapper\Console($this->logger));
+        $environment->set('cache', new Wrapper\Cache($this->cache));
 
         try {
             $environment->run($configuration->get('code'));
