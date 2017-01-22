@@ -260,7 +260,7 @@ JAVASCRIPT;
       "User-Agent": "GuzzleHttp/6.2.1 curl/7.35.0 PHP/7.0.7",
       "X-Custom-Header": "foo"
     },
-    "url": "http://httpbin.org/get?foo=bar"
+    "url": "{$connection}://httpbin.org/get?foo=bar"
   },
   "post": {
     "args": {},
@@ -276,7 +276,7 @@ JAVASCRIPT;
     "json": {
       "foo": "bar"
     },
-    "url": "http://httpbin.org/post"
+    "url": "{$connection}://httpbin.org/post"
   }
 }
 JSON;
