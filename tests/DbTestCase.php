@@ -23,6 +23,7 @@ namespace Fusio\Adapter\V8\Tests;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
+use Fusio\Adapter\Http\Connection\Http;
 use Fusio\Engine\Model\Connection;
 use Fusio\Engine\Test\CallbackConnection;
 use Fusio\Engine\Test\EngineTestCaseTrait;
@@ -51,12 +52,32 @@ class DbTestCase extends \PHPUnit_Extensions_Database_TestCase
 
         $connection = new Connection();
         $connection->setId(1);
-        $connection->setName('foo');
+        $connection->setName('sql');
         $connection->setClass(CallbackConnection::class);
         $connection->setConfig([
             'callback' => function(){
                 return $this->connection;
             },
+        ]);
+
+        $this->getConnectionRepository()->add($connection);
+
+        $connection = new Connection();
+        $connection->setId(2);
+        $connection->setName('http');
+        $connection->setClass(Http::class);
+        $connection->setConfig([
+            'url' => 'http://httpbin.org/',
+        ]);
+
+        $this->getConnectionRepository()->add($connection);
+
+        $connection = new Connection();
+        $connection->setId(3);
+        $connection->setName('https');
+        $connection->setClass(Http::class);
+        $connection->setConfig([
+            'url' => 'https://httpbin.org/',
         ]);
 
         $this->getConnectionRepository()->add($connection);

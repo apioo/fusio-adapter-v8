@@ -68,7 +68,7 @@ class V8ProcessorTest extends DbTestCase
         $script = <<<JAVASCRIPT
 
 // get connection and query
-var connection = connector.get('foo');
+var connection = connector.get('sql');
 var result = connection.fetchAll('SELECT * FROM app_news WHERE id = :id', {id: 1});
 
 // call other action
@@ -200,6 +200,63 @@ JSON;
             $this->assertEquals(['x-foo' => 'bar'], $response->getHeaders());
             $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
         }
+    }
+
+    /**
+     * @dataProvider httpProvider
+     */
+    public function testHandleHttp($connection)
+    {
+        $script = <<<JAVASCRIPT
+
+// get http connection
+var connection = connector.get('{$connection}');
+
+var result = connection.request('/get?foo=bar', {"X-Custom-Header": "foo"});
+var getData = JSON.parse(result.getBody());
+
+var result = connection.request('/post', {}, {foo: "bar"});
+var postData = JSON.parse(result.getBody());
+
+response.setStatusCode(200);
+response.setBody({
+    get: getData,
+    post: postData
+});
+
+JAVASCRIPT;
+
+        $parameters = $this->getParameters([
+            'code' => $script,
+        ]);
+
+        $body   = Record::fromArray(['foo' => 'bar']);
+        $action = $this->getActionFactory()->factory(V8Processor::class);
+
+        // handle request
+        $response = $action->handle(
+            $this->getRequest('GET', ['foo' => 'bar'], ['foo' => 'bar'], ['Content-Type' => 'application/json'], $body),
+            $parameters,
+            $this->getContext()
+        );
+
+        $actual = json_encode($response->getBody());
+        $expect = <<<JSON
+{
+}
+JSON;
+
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
+    }
+
+    public function httpProvider()
+    {
+        return [
+            ['http'],
+            ['https'],
+        ];
     }
 
     public function testGetForm()
