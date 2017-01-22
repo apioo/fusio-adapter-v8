@@ -47,7 +47,7 @@ class Http implements ObjectInterface
         $this->connection = $connection;
     }
 
-    public function request($uri, $method = 'GET', $headers = [], $body = null)
+    public function request($method, $uri, $headers = [], $body = null)
     {
         $options = [];
 

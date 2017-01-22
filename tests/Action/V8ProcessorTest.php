@@ -212,10 +212,10 @@ JSON;
 // get http connection
 var connection = connector.get('{$connection}');
 
-var result = connection.request('/get?foo=bar', {"X-Custom-Header": "foo"});
+var result = connection.request('GET', '/get?foo=bar', {"X-Custom-Header": "foo"});
 var getData = JSON.parse(result.getBody());
 
-var result = connection.request('/post', {}, {foo: "bar"});
+var result = connection.request('POST', '/post', {}, {foo: "bar"});
 var postData = JSON.parse(result.getBody());
 
 response.setStatusCode(200);
