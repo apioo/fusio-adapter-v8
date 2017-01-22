@@ -214,23 +214,23 @@ var connection = connector.get('{$connection}');
 
 var result = connection.request('GET', '/get?foo=bar', {"X-Custom-Header": "foo"});
 var getData = JSON.parse(result.getBody());
-
-if (getData.origin) {
-    delete getData.origin;
-}
+getData = cleanResponse(getData);
 
 var result = connection.request('POST', '/post', {"Content-Type": "application/json"}, JSON.stringify({foo: "bar"}));
 var postData = JSON.parse(result.getBody());
-
-if (postData.origin) {
-    delete postData.origin;
-}
+postData = cleanResponse(postData);
 
 response.setStatusCode(200);
 response.setBody({
     get: getData,
     post: postData
 });
+
+function cleanResponse(data) {
+    delete data['origin'];
+    delete data['headers']['User-Agent'];
+    return data;
+}
 
 JAVASCRIPT;
 
@@ -257,7 +257,6 @@ JAVASCRIPT;
     },
     "headers": {
       "Host": "httpbin.org",
-      "User-Agent": "GuzzleHttp/6.2.1 curl/7.35.0 PHP/7.0.7",
       "X-Custom-Header": "foo"
     },
     "url": "{$connection}://httpbin.org/get?foo=bar"
@@ -270,7 +269,6 @@ JAVASCRIPT;
     "headers": {
       "Content-Length": "13",
       "Host": "httpbin.org",
-      "User-Agent": "GuzzleHttp/6.2.1 curl/7.35.0 PHP/7.0.7",
       "Content-Type": "application/json"
     },
     "json": {
