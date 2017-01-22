@@ -72,9 +72,20 @@ var connection = connector.get('foo');
 var result = connection.fetchAll('SELECT * FROM app_news WHERE id = :id', {id: 1});
 
 // call other action
-var called = processor.execute('baz', {
-    bar: 'foo'
-});
+var cached = false;
+var called;
+if (!cache.has('bar')) {
+    called = processor.execute('baz', {
+        bar: 'foo'
+    });
+    cache.set('bar', called);
+} else {
+    cached = true;
+    called = cache.get('bar');
+}
+
+// log request
+console.log('An incoming request');
 
 response.setStatusCode(200);
 response.setHeaders({
@@ -112,7 +123,8 @@ response.setBody({
     userName: context.getUser().getName(),
 
     result: result,
-    called: called
+    called: called,
+    cached: cached
 });
 
 JAVASCRIPT;
@@ -121,12 +133,20 @@ JAVASCRIPT;
             'code' => $script,
         ]);
  
-        $body     = Record::fromArray(['foo' => 'bar']);
-        $action   = $this->getActionFactory()->factory(V8Processor::class);
-        $response = $action->handle($this->getRequest('GET', ['foo' => 'bar'], ['foo' => 'bar'], ['Content-Type' => 'application/json'], $body), $parameters, $this->getContext());
+        $body   = Record::fromArray(['foo' => 'bar']);
+        $action = $this->getActionFactory()->factory(V8Processor::class);
 
-        $actual = json_encode($response->getBody());
-        $expect = <<<JSON
+        for ($i = 0; $i < 6; $i++) {
+            // handle request
+            $response = $action->handle(
+                $this->getRequest('GET', ['foo' => 'bar'], ['foo' => 'bar'], ['Content-Type' => 'application/json'], $body), 
+                $parameters, 
+                $this->getContext()
+            );
+
+            $cached = $i === 0 ? 'false' : 'true';
+            $actual = json_encode($response->getBody());
+            $expect = <<<JSON
 {
     "method": "GET",
     "header": "application/json",
@@ -171,13 +191,15 @@ JAVASCRIPT;
     "called": {
         "baz": "bar"
     }
+    "cached": {$cached}
 }
 JSON;
 
-        $this->assertInstanceOf(ResponseInterface::class, $response);
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(['x-foo' => 'bar'], $response->getHeaders());
-        $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
+            $this->assertInstanceOf(ResponseInterface::class, $response);
+            $this->assertEquals(200, $response->getStatusCode());
+            $this->assertEquals(['x-foo' => 'bar'], $response->getHeaders());
+            $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
+        }
     }
 
     public function testGetForm()

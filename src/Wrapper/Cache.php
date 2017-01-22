@@ -55,6 +55,11 @@ class Cache implements ObjectInterface
         return $this->cache->set($key, $value);
     }
 
+    public function has($key)
+    {
+        return $this->cache->has($key);
+    }
+
     public function delete($key)
     {
         return $this->cache->delete($key);
@@ -65,6 +70,7 @@ class Cache implements ObjectInterface
         return [
             'get'    => [$this, 'get'],
             'set'    => [$this, 'set'],
+            'has'    => [$this, 'has'],
             'delete' => [$this, 'delete'],
         ];
     }
