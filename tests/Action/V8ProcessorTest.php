@@ -190,7 +190,7 @@ JAVASCRIPT;
     ],
     "called": {
         "baz": "bar"
-    }
+    },
     "cached": {$cached}
 }
 JSON;
