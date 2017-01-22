@@ -215,8 +215,16 @@ var connection = connector.get('{$connection}');
 var result = connection.request('GET', '/get?foo=bar', {"X-Custom-Header": "foo"});
 var getData = JSON.parse(result.getBody());
 
-var result = connection.request('POST', '/post', {}, JSON.stringify({foo: "bar"}));
+if (getData.origin) {
+    delete getData.origin;
+}
+
+var result = connection.request('POST', '/post', {"Content-Type": "application/json"}, JSON.stringify({foo: "bar"}));
 var postData = JSON.parse(result.getBody());
+
+if (postData.origin) {
+    delete postData.origin;
+}
 
 response.setStatusCode(200);
 response.setBody({
@@ -243,6 +251,33 @@ JAVASCRIPT;
         $actual = json_encode($response->getBody());
         $expect = <<<JSON
 {
+  "get": {
+    "args": {
+      "foo": "bar"
+    },
+    "headers": {
+      "Host": "httpbin.org",
+      "User-Agent": "GuzzleHttp/6.2.1 curl/7.35.0 PHP/7.0.7",
+      "X-Custom-Header": "foo"
+    },
+    "url": "http://httpbin.org/get?foo=bar"
+  },
+  "post": {
+    "args": {},
+    "data": "{\"foo\":\"bar\"}",
+    "files": {},
+    "form": {},
+    "headers": {
+      "Content-Length": "13",
+      "Host": "httpbin.org",
+      "User-Agent": "GuzzleHttp/6.2.1 curl/7.35.0 PHP/7.0.7",
+      "Content-Type": "application/json"
+    },
+    "json": {
+      "foo": "bar"
+    },
+    "url": "http://httpbin.org/post"
+  }
 }
 JSON;
 
