@@ -50,6 +50,15 @@ class Elasticsearch implements ObjectInterface
      * @param array $params
      * @return mixed
      */
+    public function index($params)
+    {
+        return $this->connection->index($this->convertToArray($params));
+    }
+
+    /**
+     * @param array $params
+     * @return mixed
+     */
     public function delete($params)
     {
         return $this->connection->delete($this->convertToArray($params));
@@ -103,8 +112,9 @@ class Elasticsearch implements ObjectInterface
     public function getProperties()
     {
         return [
+            'index'  => [$this, 'index'],
             'delete' => [$this, 'delete'],
-            'count' => [$this, 'count'],
+            'count'  => [$this, 'count'],
             'exists' => [$this, 'exists'],
             'create' => [$this, 'create'],
             'search' => [$this, 'search'],
