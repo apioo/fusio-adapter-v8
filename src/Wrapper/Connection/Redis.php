@@ -51,22 +51,36 @@ class Redis implements ObjectInterface
         return $this->connection->get($key);
     }
 
-    public function set($key, $value, $expiration = null)
+    public function exists($key)
     {
-        return $this->connection->set($key, $value, $expiration);
+        return $this->connection->exists($key);
     }
 
-    public function delete($key)
+    public function set($key, $value, $expiration = null)
     {
-        return $this->connection->del((array) $key);
+        if (is_int($expiration)) {
+            $this->connection->setex($key, $expiration, $value);
+        } else {
+            $this->connection->set($key, $value);
+        }
+    }
+
+    public function del($key)
+    {
+        if (is_array($key)) {
+            return $this->connection->del($key);
+        } else {
+            return $this->connection->del([$key]);
+        }
     }
 
     public function getProperties()
     {
         return [
             'get' => [$this, 'get'],
+            'exists' => [$this, 'exists'],
             'set' => [$this, 'set'],
-            'delete' => [$this, 'delete'],
+            'del' => [$this, 'del'],
         ];
     }
 }
