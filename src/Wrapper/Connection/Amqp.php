@@ -47,6 +47,11 @@ class Amqp implements ObjectInterface
         $this->connection = $connection;
     }
 
+    /**
+     * @param string $queue
+     * @param string $body
+     * @param array $properties
+     */
     public function basicPublish($queue, $body, $properties = [])
     {
         $properties = (array) $properties;
@@ -60,8 +65,6 @@ class Amqp implements ObjectInterface
         $channel->queue_declare($queue, false, true, false, false);
         $channel->basic_publish($message, '', $queue);
         $channel->close();
-
-        return null;
     }
 
     public function getProperties()

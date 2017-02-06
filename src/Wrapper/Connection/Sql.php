@@ -46,21 +46,41 @@ class Sql implements ObjectInterface
         $this->connection = $connection;
     }
 
+    /**
+     * @param string $sql
+     * @param array $params
+     * @return array
+     */
     public function fetchAll($sql, $params = [])
     {
         return $this->connection->fetchAll($sql, (array) $params);
     }
 
+    /**
+     * @param string $sql
+     * @param array $params
+     * @return array
+     */
     public function fetchAssoc($sql, $params = [])
     {
         return $this->connection->fetchAssoc($sql, (array) $params);
     }
 
+    /**
+     * @param string $sql
+     * @param array $params
+     * @return mixed
+     */
     public function fetchColumn($sql, $params = [])
     {
         return $this->connection->fetchColumn($sql, (array) $params);
     }
 
+    /**
+     * @param string $sql
+     * @param array $params
+     * @return int
+     */
     public function executeUpdate($sql, $params = [])
     {
         return $this->connection->executeUpdate($sql, (array) $params);

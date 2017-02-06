@@ -46,66 +46,149 @@ class MongoDB implements ObjectInterface
         $this->database = $database;
     }
 
+    /**
+     * @param string $collection
+     * @param array|object $filter
+     * @param array $options
+     * @return \MongoDB\Driver\Cursor
+     */
     public function find($collection, $filter = [], $options = [])
     {
         return $this->database->selectCollection($collection)->find($filter, (array) $options);
     }
 
+    /**
+     * @param string $collection
+     * @param array|object $filter
+     * @param array $options
+     * @return array|null|object
+     */
     public function findOne($collection, $filter = [], $options = [])
     {
         return $this->database->selectCollection($collection)->findOne($filter, (array) $options);
     }
 
+    /**
+     * @param string $collection
+     * @param array|object $filter
+     * @param array $options
+     * @return array|null|object
+     */
     public function findOneAndDelete($collection, $filter, $options = [])
     {
         return $this->database->selectCollection($collection)->findOneAndDelete($filter, (array) $options);
     }
 
+    /**
+     * @param string $collection
+     * @param array|object $filter
+     * @param array|object $update
+     * @param array $options
+     * @return array|null|object
+     */
     public function findOneAndUpdate($collection, $filter, $update, $options = [])
     {
         return $this->database->selectCollection($collection)->findOneAndUpdate($filter, $update, (array) $options);
     }
 
+    /**
+     * @param string $collection
+     * @param array|object $filter
+     * @param array|object $replacement
+     * @param array $options
+     * @return array|null|object
+     */
     public function findOneAndReplace($collection, $filter, $replacement, $options = [])
     {
         return $this->database->selectCollection($collection)->findOneAndReplace($filter, $replacement, (array) $options);
     }
 
+    /**
+     * @param string $collection
+     * @param array|object $document
+     * @param array $options
+     * @return \MongoDB\InsertOneResult
+     */
     public function insertOne($collection, $document, $options = [])
     {
         return $this->database->selectCollection($collection)->insertOne($document, (array) $options);
     }
 
+    /**
+     * @param string $collection
+     * @param array $documents
+     * @param array $options
+     * @return \MongoDB\InsertManyResult
+     */
     public function insertMany($collection, $documents, $options = [])
     {
         return $this->database->selectCollection($collection)->insertMany($documents, (array) $options);
     }
 
+    /**
+     * @param string $collection
+     * @param array|object $filter
+     * @param array|object $update
+     * @param array $options
+     * @return \MongoDB\UpdateResult
+     */
     public function updateOne($collection, $filter, $update, $options = [])
     {
         return $this->database->selectCollection($collection)->updateOne($filter, $update, (array) $options);
     }
 
+    /**
+     * @param string $collection
+     * @param array|object $filter
+     * @param array|object $update
+     * @param array $options
+     * @return \MongoDB\UpdateResult
+     */
     public function updateMany($collection, $filter, $update, $options = [])
     {
         return $this->database->selectCollection($collection)->updateMany($filter, $update, (array) $options);
     }
 
+    /**
+     * @param string $collection
+     * @param array|object $filter
+     * @param array $options
+     * @return \MongoDB\DeleteResult
+     */
     public function deleteOne($collection, $filter, $options = [])
     {
         return $this->database->selectCollection($collection)->deleteOne($filter, (array) $options);
     }
 
+    /**
+     * @param string $collection
+     * @param array|object $filter
+     * @param array $options
+     * @return \MongoDB\DeleteResult
+     */
     public function deleteMany($collection, $filter, $options = [])
     {
         return $this->database->selectCollection($collection)->deleteMany($filter, (array) $options);
     }
 
+    /**
+     * @param string $collection
+     * @param array|object $filter
+     * @param array|object $replacement
+     * @param array $options
+     * @return \MongoDB\UpdateResult
+     */
     public function replaceOne($collection, $filter, $replacement, $options = [])
     {
         return $this->database->selectCollection($collection)->replaceOne($filter, $replacement, (array) $options);
     }
 
+    /**
+     * @param string $collection
+     * @param array|object $filter
+     * @param array $options
+     * @return int
+     */
     public function count($collection, $filter, $options = [])
     {
         return $this->database->selectCollection($collection)->count($filter, (array) $options);

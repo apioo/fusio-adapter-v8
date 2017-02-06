@@ -46,16 +46,29 @@ class Redis implements ObjectInterface
         $this->connection = $connection;
     }
 
+    /**
+     * @param string $key
+     * @return string
+     */
     public function get($key)
     {
         return $this->connection->get($key);
     }
 
+    /**
+     * @param string $key
+     * @return int
+     */
     public function exists($key)
     {
         return $this->connection->exists($key);
     }
 
+    /**
+     * @param string $key
+     * @param string $value
+     * @param null $expiration
+     */
     public function set($key, $value, $expiration = null)
     {
         if (is_int($expiration)) {
@@ -65,6 +78,10 @@ class Redis implements ObjectInterface
         }
     }
 
+    /**
+     * @param string $key
+     * @return int
+     */
     public function del($key)
     {
         if (is_array($key)) {

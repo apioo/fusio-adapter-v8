@@ -47,7 +47,7 @@ class Soap implements ObjectInterface
 
     /**
      * @param string $functionName
-     * @param string $arguments
+     * @param array $arguments
      * @return mixed
      */
     public function call($functionName, $arguments)

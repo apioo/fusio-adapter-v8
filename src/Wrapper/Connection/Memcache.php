@@ -45,16 +45,30 @@ class Memcache implements ObjectInterface
         $this->connection = $connection;
     }
 
+    /**
+     * @param string $key
+     * @return mixed
+     */
     public function get($key)
     {
         return $this->connection->get($key);
     }
 
+    /**
+     * @param string $key
+     * @param string $value
+     * @param integer|null $expiration
+     * @return bool
+     */
     public function set($key, $value, $expiration = null)
     {
         return $this->connection->set($key, $value, $expiration);
     }
 
+    /**
+     * @param string $key
+     * @return bool
+     */
     public function delete($key)
     {
         return $this->connection->delete($key);

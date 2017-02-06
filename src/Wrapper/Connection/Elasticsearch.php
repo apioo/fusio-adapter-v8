@@ -48,7 +48,7 @@ class Elasticsearch implements ObjectInterface
 
     /**
      * @param array $params
-     * @return mixed
+     * @return array
      */
     public function index($params)
     {
@@ -57,7 +57,7 @@ class Elasticsearch implements ObjectInterface
 
     /**
      * @param array $params
-     * @return mixed
+     * @return array
      */
     public function delete($params)
     {
@@ -66,7 +66,7 @@ class Elasticsearch implements ObjectInterface
 
     /**
      * @param array $params
-     * @return mixed
+     * @return array
      */
     public function count($params)
     {
@@ -75,7 +75,7 @@ class Elasticsearch implements ObjectInterface
 
     /**
      * @param array $params
-     * @return mixed
+     * @return array|boolean
      */
     public function exists($params)
     {
@@ -84,7 +84,7 @@ class Elasticsearch implements ObjectInterface
 
     /**
      * @param array $params
-     * @return mixed
+     * @return array
      */
     public function create($params)
     {
@@ -93,7 +93,7 @@ class Elasticsearch implements ObjectInterface
 
     /**
      * @param array $params
-     * @return mixed
+     * @return array
      */
     public function search($params)
     {
@@ -102,7 +102,7 @@ class Elasticsearch implements ObjectInterface
 
     /**
      * @param array $params
-     * @return mixed
+     * @return array
      */
     public function update($params)
     {

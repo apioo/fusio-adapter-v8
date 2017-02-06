@@ -43,11 +43,17 @@ class Response implements ObjectInterface
         $this->response = $response;
     }
 
+    /**
+     * @return integer
+     */
     public function getStatusCode()
     {
         return $this->response->getStatusCode();
     }
 
+    /**
+     * @return array
+     */
     public function getHeaders()
     {
         $result  = [];
@@ -59,11 +65,18 @@ class Response implements ObjectInterface
         return $result;
     }
 
+    /**
+     * @param string $name
+     * @return string
+     */
     public function getHeader($name)
     {
         return $this->response->getHeaderLine($name);
     }
 
+    /**
+     * @return string
+     */
     public function getBody()
     {
         return (string) $this->response->getBody();

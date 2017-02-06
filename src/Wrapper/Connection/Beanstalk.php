@@ -46,6 +46,11 @@ class Beanstalk implements ObjectInterface
         $this->connection = $connection;
     }
 
+    /**
+     * @param string $tube
+     * @param string $data
+     * @return integer
+     */
     public function putInTube($tube, $data)
     {
         return $this->connection->putInTube($tube, $data);
