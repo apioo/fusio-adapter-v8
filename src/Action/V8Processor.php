@@ -90,6 +90,6 @@ class V8Processor extends ActionAbstract
 
     public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
     {
-        $builder->add($elementFactory->newTextArea('code', 'Code', 'javascript', 'Javascript code which handles the request and returns the response. Click <a ng-click="help.showDialog(\'help/action/v8.md\')">here</a> for more information about the available functions.'));
+        $builder->add($elementFactory->newTextArea('code', 'Code', 'javascript', 'Click <a ng-click="help.showDialog(\'help/action/v8.md\')">here</a> for more information about the javascript API.'));
     }
 }
