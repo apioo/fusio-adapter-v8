@@ -59,6 +59,15 @@ class Elasticsearch implements ObjectInterface
      * @param array $params
      * @return array
      */
+    public function get($params)
+    {
+        return $this->connection->get($this->convertToArray($params));
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     */
     public function delete($params)
     {
         return $this->connection->delete($this->convertToArray($params));
