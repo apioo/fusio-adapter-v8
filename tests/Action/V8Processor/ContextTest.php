@@ -103,7 +103,7 @@ JAVASCRIPT;
         "userIsAnonymous": false,
         "userId": 2,
         "userStatus": 0,
-        "userName": "Consumer",
+        "userName": "Consumer"
     }
 }
 JSON;

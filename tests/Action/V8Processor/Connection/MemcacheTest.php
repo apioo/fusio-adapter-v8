@@ -65,7 +65,7 @@ class MemcacheTest extends V8ProcessorTestCase
 var connection = connector.get("memcache");
 var result = null;
 var success = false;
-if (!connection.has("bar")) {
+if (!connection.get("bar")) {
     success = true;
     result = connection.set("bar", {
         foo: "bar"
@@ -98,7 +98,7 @@ JSON;
 var connection = connector.get("memcache");
 var result = null;
 var success = false;
-if (connection.has("bar")) {
+if (connection.get("bar")) {
     success = true;
     result = connection.get("bar");
 }
@@ -131,7 +131,7 @@ JSON;
 var connection = connector.get("memcache");
 var result = null;
 var success = false;
-if (connection.has("bar")) {
+if (connection.get("bar")) {
     success = true;
     connection.delete("bar");
     result = connection.get("bar");

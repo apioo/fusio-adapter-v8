@@ -82,7 +82,7 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": null
+    "result": 1
 }
 JSON;
     }

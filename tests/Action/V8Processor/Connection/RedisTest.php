@@ -119,7 +119,7 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        foo: "bar"
+        "foo": "bar"
     }
 }
 JSON;
@@ -153,7 +153,7 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        foo: "bar"
+        "foo": "bar"
     }
 }
 JSON;
