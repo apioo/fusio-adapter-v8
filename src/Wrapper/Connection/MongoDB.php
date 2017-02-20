@@ -212,6 +212,7 @@ class MongoDB implements ObjectInterface
     public function getProperties()
     {
         return [
+            'aggregate' => [$this, 'aggregate'],
             'find' => [$this, 'find'],
             'findOne' => [$this, 'findOne'],
             'findOneAndDelete' => [$this, 'findOneAndDelete'],
