@@ -86,7 +86,7 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": true
+    "result": null
 }
 JSON;
     }
@@ -151,9 +151,7 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": {
-        "foo": "bar"
-    }
+    "result": false
 }
 JSON;
     }
