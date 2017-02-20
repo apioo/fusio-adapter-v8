@@ -42,6 +42,7 @@ class CacheTest extends V8ProcessorTestCase
         return [
             [$this->getCacheCode(), 200, [], $this->getCacheBody()],
             [$this->getCacheExistingCode(), 200, [], $this->getCacheExistingBody()],
+            [$this->getCacheDeleteCode(), 200, [], $this->getCacheDeleteBody()],
         ];
     }
 
@@ -103,8 +104,39 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        foo: "bar"
+        "foo": "bar"
     }
+}
+JSON;
+    }
+
+    protected function getCacheDeleteCode()
+    {
+        return <<<JAVASCRIPT
+
+var result = null;
+var success = false;
+if (cache.has("bar")) {
+    success = true;
+    cache.delete("bar");
+    result = cache.get("bar");
+}
+
+response.setStatusCode(200);
+response.setBody({
+    success: success,
+    result: result
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getCacheDeleteBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": null
 }
 JSON;
     }
