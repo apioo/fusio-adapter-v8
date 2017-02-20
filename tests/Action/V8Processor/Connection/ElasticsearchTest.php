@@ -43,7 +43,7 @@ class ElasticsearchTest extends V8ProcessorTestCase
         $connection->setName('elasticsearch');
         $connection->setClass(Elasticsearch::class);
         $connection->setConfig([
-            'host' => '127.0.0.1',
+            'host' => ['127.0.0.1'],
         ]);
 
         $this->getConnectionRepository()->add($connection);
