@@ -21,6 +21,8 @@
 
 namespace Fusio\Adapter\V8\Tests\Action\V8Processor;
 
+use Fusio\Adapter\V8\Tests\Action\V8ProcessorTestCase;
+
 /**
  * ConsoleTest
  *

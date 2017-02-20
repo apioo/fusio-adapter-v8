@@ -22,7 +22,7 @@
 namespace Fusio\Adapter\V8\Tests\Action\V8Processor\Connection;
 
 use Fusio\Adapter\Beanstalk\Connection\Beanstalk;
-use Fusio\Adapter\V8\Tests\Action\V8Processor\V8ProcessorTestCase;
+use Fusio\Adapter\V8\Tests\Action\V8ProcessorTestCase;
 use Fusio\Engine\Model\Connection;
 
 /**

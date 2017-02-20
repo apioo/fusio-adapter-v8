@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Fusio\Adapter\V8\Tests\Action\V8Processor;
+namespace Fusio\Adapter\V8\Tests\Action;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
