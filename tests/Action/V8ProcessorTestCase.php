@@ -66,7 +66,7 @@ abstract class V8ProcessorTestCase extends \PHPUnit_Extensions_Database_TestCase
 
     protected function getDataSet()
     {
-        return $this->createFlatXMLDataSet(__DIR__ . '/fixture.xml');
+        return $this->createFlatXMLDataSet(__DIR__ . '/../fixture.xml');
     }
 
     protected function newConnection()
