@@ -21,6 +21,10 @@
 
 namespace Fusio\Adapter\V8\Wrapper\Connection;
 
+use Fusio\Adapter\V8\Wrapper\Connection\MongoDB\DeleteResult;
+use Fusio\Adapter\V8\Wrapper\Connection\MongoDB\InsertManyResult;
+use Fusio\Adapter\V8\Wrapper\Connection\MongoDB\InsertOneResult;
+use Fusio\Adapter\V8\Wrapper\Connection\MongoDB\UpdateResult;
 use MongoDB\Database;
 use PSX\V8\ObjectInterface;
 
@@ -44,6 +48,17 @@ class MongoDB implements ObjectInterface
     public function __construct(Database $database)
     {
         $this->database = $database;
+    }
+
+    /**
+     * @param string $collection
+     * @param array $pipeline
+     * @param array $options
+     * @return \Traversable
+     */
+    public function aggregate($collection, $pipeline = [], $options = [])
+    {
+        return $this->database->selectCollection($collection)->aggregate((array) $pipeline, (array) $options);
     }
 
     /**
@@ -107,22 +122,22 @@ class MongoDB implements ObjectInterface
      * @param string $collection
      * @param array|object $document
      * @param array $options
-     * @return \MongoDB\InsertOneResult
+     * @return \Fusio\Adapter\V8\Wrapper\Connection\MongoDB\InsertOneResult
      */
     public function insertOne($collection, $document, $options = [])
     {
-        return $this->database->selectCollection($collection)->insertOne($document, (array) $options);
+        return new InsertOneResult($this->database->selectCollection($collection)->insertOne($document, (array) $options));
     }
 
     /**
      * @param string $collection
      * @param array $documents
      * @param array $options
-     * @return \MongoDB\InsertManyResult
+     * @return \Fusio\Adapter\V8\Wrapper\Connection\MongoDB\InsertManyResult
      */
     public function insertMany($collection, $documents, $options = [])
     {
-        return $this->database->selectCollection($collection)->insertMany($documents, (array) $options);
+        return new InsertManyResult($this->database->selectCollection($collection)->insertMany($documents, (array) $options));
     }
 
     /**
@@ -130,11 +145,11 @@ class MongoDB implements ObjectInterface
      * @param array|object $filter
      * @param array|object $update
      * @param array $options
-     * @return \MongoDB\UpdateResult
+     * @return \Fusio\Adapter\V8\Wrapper\Connection\MongoDB\UpdateResult
      */
     public function updateOne($collection, $filter, $update, $options = [])
     {
-        return $this->database->selectCollection($collection)->updateOne($filter, $update, (array) $options);
+        return new UpdateResult($this->database->selectCollection($collection)->updateOne($filter, $update, (array) $options));
     }
 
     /**
@@ -142,33 +157,33 @@ class MongoDB implements ObjectInterface
      * @param array|object $filter
      * @param array|object $update
      * @param array $options
-     * @return \MongoDB\UpdateResult
+     * @return \Fusio\Adapter\V8\Wrapper\Connection\MongoDB\UpdateResult
      */
     public function updateMany($collection, $filter, $update, $options = [])
     {
-        return $this->database->selectCollection($collection)->updateMany($filter, $update, (array) $options);
+        return new UpdateResult($this->database->selectCollection($collection)->updateMany($filter, $update, (array) $options));
     }
 
     /**
      * @param string $collection
      * @param array|object $filter
      * @param array $options
-     * @return \MongoDB\DeleteResult
+     * @return \Fusio\Adapter\V8\Wrapper\Connection\MongoDB\DeleteResult
      */
     public function deleteOne($collection, $filter, $options = [])
     {
-        return $this->database->selectCollection($collection)->deleteOne($filter, (array) $options);
+        return new DeleteResult($this->database->selectCollection($collection)->deleteOne($filter, (array) $options));
     }
 
     /**
      * @param string $collection
      * @param array|object $filter
      * @param array $options
-     * @return \MongoDB\DeleteResult
+     * @return \Fusio\Adapter\V8\Wrapper\Connection\MongoDB\DeleteResult
      */
     public function deleteMany($collection, $filter, $options = [])
     {
-        return $this->database->selectCollection($collection)->deleteMany($filter, (array) $options);
+        return new DeleteResult($this->database->selectCollection($collection)->deleteMany($filter, (array) $options));
     }
 
     /**
@@ -176,11 +191,11 @@ class MongoDB implements ObjectInterface
      * @param array|object $filter
      * @param array|object $replacement
      * @param array $options
-     * @return \MongoDB\UpdateResult
+     * @return \Fusio\Adapter\V8\Wrapper\Connection\MongoDB\UpdateResult
      */
     public function replaceOne($collection, $filter, $replacement, $options = [])
     {
-        return $this->database->selectCollection($collection)->replaceOne($filter, $replacement, (array) $options);
+        return new UpdateResult($this->database->selectCollection($collection)->replaceOne($filter, $replacement, (array) $options));
     }
 
     /**
