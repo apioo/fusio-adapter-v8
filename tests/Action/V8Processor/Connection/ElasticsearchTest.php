@@ -53,7 +53,15 @@ class ElasticsearchTest extends V8ProcessorTestCase
     {
         return [
             [$this->getIndexCode(), 200, [], $this->getIndexBody()],
+            /*
             [$this->getGetCode(), 200, [], $this->getGetBody()],
+            [$this->getUpdateCode(), 200, [], $this->getUpdateBody()],
+            [$this->getDeleteCode(), 200, [], $this->getDeleteBody()],
+            [$this->getSearchCode(), 200, [], $this->getSearchBody()],
+            [$this->getCountCode(), 200, [], $this->getCountBody()],
+            [$this->getExistsCode(), 200, [], $this->getExistsBody()],
+            [$this->getCreateCode(), 200, [], $this->getCreateBody()],
+            */
         ];
     }
 
@@ -327,5 +335,4 @@ JAVASCRIPT;
 }
 JSON;
     }
-
 }
