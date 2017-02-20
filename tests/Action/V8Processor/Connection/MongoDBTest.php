@@ -68,6 +68,7 @@ class MongoDBTest extends V8ProcessorTestCase
 var connection = connector.get("mongodb");
 var result = connection.aggregate("app_news", [{
     $project: {
+        _id: 0,
         title: 1
     }
 }]);
@@ -87,10 +88,8 @@ JAVASCRIPT;
 {
     "success": true,
     "result": [{
-        "_id": "58ab73350750e73e1b74cb81",
         "title": "foo"
     },{
-        "_id": "58ab73350750e73e1b74cb82",
         "title" :"bar"
     }]
 }
