@@ -68,9 +68,9 @@ var result = null;
 var success = false;
 if (!connection.exists("bar")) {
     success = true;
-    result = connection.set("bar", {
+    result = connection.set("bar", JSON.stringify({
         foo: "bar"
-    });
+    }));
 }
 
 response.setStatusCode(200);
@@ -101,7 +101,7 @@ var result = null;
 var success = false;
 if (connection.exists("bar")) {
     success = true;
-    result = connection.get("bar");
+    result = JSON.parse(connection.get("bar"));
 }
 
 response.setStatusCode(200);
