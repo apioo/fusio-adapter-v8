@@ -86,7 +86,13 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": null
+    "result": [{
+        "_id": "58ab73350750e73e1b74cb81",
+        "title": "foo"
+    },{
+        "_id": "58ab73350750e73e1b74cb82",
+        "title" :"bar"
+    }]
 }
 JSON;
     }

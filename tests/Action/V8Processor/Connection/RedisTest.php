@@ -152,9 +152,7 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": {
-        "foo": "bar"
-    }
+    "result": null
 }
 JSON;
     }
