@@ -122,6 +122,7 @@ class Elasticsearch implements ObjectInterface
     {
         return [
             'index'  => [$this, 'index'],
+            'get'  => [$this, 'get'],
             'delete' => [$this, 'delete'],
             'count'  => [$this, 'count'],
             'exists' => [$this, 'exists'],
