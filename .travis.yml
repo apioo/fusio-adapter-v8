@@ -28,12 +28,12 @@ before_install:
   - echo "extension=v8.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - sudo apt-get install beanstalkd
   - pushd /tmp && wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.2.1.zip && unzip elasticsearch-5.2.1.zip && popd
-  - /tmp/elasticsearch-5.2.1/bin/elasticsearch
 install:
   - composer install
 before_script:
   - beanstalkd -l 127.0.0.1 -p 11300 &
   - mysql -e 'create database app_news;'
+  - /tmp/elasticsearch-5.2.1/bin/elasticsearch &
   - sleep 10
 script:
   - vendor/bin/phpunit
