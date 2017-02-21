@@ -145,7 +145,7 @@ JAVASCRIPT;
         "_version": 2,
         "found": true,
         "_source": {
-            "id": "1",
+            "id": 1,
             "title": "foo",
             "content": "bar",
             "date": "2015-02-27 19:59:15"
@@ -403,9 +403,9 @@ JSON;
 var connection = connector.get("elasticsearch");
 
 var result = connection.create({
-    index: "my_index",
-    type: "my_type",
-    id: "3",
+    index: "my_foo",
+    type: "my_bar",
+    id: "my_id_1",
     body: {
         title: "foofoo"
     }
@@ -426,9 +426,9 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        "_index": "my_index",
-        "_type": "my_type",
-        "_id": "3",
+        "_index": "my_foo",
+        "_type": "my_bar",
+        "_id": "my_id_1",
         "_version": 1,
         "result": "created",
         "_shards": {
@@ -457,6 +457,9 @@ JSON;
                 'body' => $row,
             ]);
         }
+
+        // wait a few seconds between the tests
+        sleep(2);
     }
 
     protected function getFixtures()
