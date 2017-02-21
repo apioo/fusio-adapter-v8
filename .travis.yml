@@ -33,5 +33,6 @@ install:
 before_script:
   - beanstalkd -l 127.0.0.1 -p 11300 &
   - mysql -e 'create database app_news;'
+  - sleep 10
 script:
   - vendor/bin/phpunit
