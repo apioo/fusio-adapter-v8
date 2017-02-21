@@ -47,6 +47,9 @@ class ElasticsearchTest extends V8ProcessorTestCase
         ]);
 
         $this->getConnectionRepository()->add($connection);
+
+        // add elasticsearch test data
+        $this->setUpFixture($connection->getConfig());
     }
 
     public function providerHandler()
@@ -219,7 +222,7 @@ var result = connection.search({
     body: {
         query: {
             match: {
-                title: "foo"
+                title: "bar"
             }
         }
     }
@@ -239,7 +242,20 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": {}
+    "result": {
+        "took": 59,
+        "timed_out": false,
+        "_shards": {
+            "total": 5,
+            "successful": 5,
+            "failed": 0
+        },
+        "hits": {
+            "total": 0,
+            "max_score": null,
+            "hits": []
+        }
+    }
 }
 JSON;
     }
