@@ -138,7 +138,19 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": {}
+    "result": {
+        "_index": "my_index",
+        "_type": "my_type",
+        "_id": "1",
+        "_version": 2,
+        "found": true,
+        "_source": {
+            "id": "1",
+            "title": "foo",
+            "content": "bar",
+            "date": "2015-02-27 19:59:15"
+        }
+    }
 }
 JSON;
     }
@@ -174,7 +186,18 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": {}
+    "result": {
+        "_index": "my_index",
+        "_type": "my_type",
+        "_id": "1",
+        "_version": 4,
+        "result": "updated",
+        "_shards": {
+            "total": 2,
+            "successful": 1,
+            "failed": 0
+        }
+    }
 }
 JSON;
     }
@@ -205,7 +228,19 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": {}
+    "result": {
+        "found": true,
+        "_index": "my_index",
+        "_type": "my_type",
+        "_id": "1",
+        "_version": 6,
+        "result": "deleted",
+        "_shards": {
+            "total": 2,
+            "successful": 1,
+            "failed": 0
+        }
+    }
 }
 JSON;
     }
@@ -228,6 +263,8 @@ var result = connection.search({
     }
 });
 
+delete result.took;
+
 response.setStatusCode(200);
 response.setBody({
     success: true,
@@ -243,7 +280,6 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        "took": 59,
         "timed_out": false,
         "_shards": {
             "total": 5,
@@ -293,7 +329,7 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        "count": 0,
+        "count": 1,
         "_shards": {
             "total": 5,
             "successful": 5,
@@ -330,7 +366,7 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": false
+    "result": true
 }
 JSON;
     }
