@@ -399,7 +399,10 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        "title": "foo"
+        "matchedCount": 1,
+        "modifiedCount": 1,
+        "upsertedCount": 0,
+        "acknowledged": true
     }
 }
 JSON;
@@ -440,7 +443,10 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        "title": "foo"
+        "matchedCount": 1,
+        "modifiedCount": 1,
+        "upsertedCount": 0,
+        "acknowledged": true
     }
 }
 JSON;
