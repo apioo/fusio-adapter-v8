@@ -276,7 +276,14 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": {}
+    "result": {
+        "count": 0,
+        "_shards": {
+            "total": 5,
+            "successful": 5,
+            "failed": 0
+        }
+    }
 }
 JSON;
     }
@@ -307,7 +314,7 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": {}
+    "result": false
 }
 JSON;
     }
@@ -321,7 +328,7 @@ var connection = connector.get("elasticsearch");
 var result = connection.create({
     index: "my_index",
     type: "my_type",
-    id: "1",
+    id: "3",
     body: {
         title: "foofoo"
     }
@@ -341,7 +348,19 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": {}
+    "result": {
+        "_index": "my_index",
+        "_type": "my_type",
+        "_id": "3",
+        "_version": 1,
+        "result": "created",
+        "_shards": {
+            "total": 2,
+            "successful": 1,
+            "failed": 0
+        },
+        "created": true
+    }
 }
 JSON;
     }
@@ -367,13 +386,13 @@ JSON;
     {
         $result = [];
         $result[] = [
-            'id' => 1,
+            'id' => '1',
             'title' => 'foo',
             'content' => 'bar',
             'date' => '2015-02-27 19:59:15',
         ];
         $result[] = [
-            'id' => 2,
+            'id' => '2',
             'title' => 'bar',
             'content' => 'foo',
             'date' => '2015-02-27 19:59:15',
