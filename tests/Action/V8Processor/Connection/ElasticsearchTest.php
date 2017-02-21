@@ -209,8 +209,8 @@ JSON;
 var connection = connector.get("elasticsearch");
 
 var result = connection.delete({
-    index: "my_index",
-    type: "my_type",
+    index: "my_foo",
+    type: "my_bar",
     id: "my_id"
 });
 
@@ -230,8 +230,8 @@ JAVASCRIPT;
     "success": true,
     "result": {
         "found": true,
-        "_index": "my_index",
-        "_type": "my_type",
+        "_index": "my_foo",
+        "_type": "my_bar",
         "_id": "my_id",
         "_version": 6,
         "result": "deleted",
