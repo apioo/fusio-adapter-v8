@@ -67,9 +67,9 @@ class SoapTest extends V8ProcessorTestCase
 
 var connection = connector.get("soap");
 
-var result = connection.call("GetGeoIP", {
+var result = connection.call("GetGeoIP", [{
     IPAddress: "8.8.8.8"
-});
+}]);
 
 response.setStatusCode(200);
 response.setBody({
