@@ -261,9 +261,7 @@ var connection = connector.get("mongodb");
 var result = connection.findOneAndReplace("app_news", {
     title: "foo"
 }, {
-    $set: {
-        title: "foo"
-    }
+    title: "foobar"
 }, {
     projection: {
         _id: 0,
@@ -301,11 +299,11 @@ var result = connection.insertOne("app_news", {
     title: "foobar"
 });
 
-var insertId = result.getInsertedId();
+var insertedId = result.getInsertedId();
 
 response.setStatusCode(200);
 response.setBody({
-    success: true,
+    success: insertedId != '',
     result: {
         insertedCount: result.getInsertedCount(),
         acknowledged: result.isAcknowledged()
@@ -343,7 +341,7 @@ var insertedIds = result.getInsertedIds();
 
 response.setStatusCode(200);
 response.setBody({
-    success: true,
+    success: insertedIds.length > 0,
     result: {
         insertedCount: result.getInsertedCount(),
         acknowledged: result.isAcknowledged()
@@ -374,7 +372,9 @@ var connection = connector.get("mongodb");
 var result = connection.updateOne("app_news", {
     title: "foo"
 }, {
-    title: "foobar"
+    $set: {
+        title: "foobar"
+    }
 });
 
 var upsertedId = result.getUpsertedId();
@@ -413,7 +413,9 @@ var connection = connector.get("mongodb");
 var result = connection.updateMany("app_news", {
     title: "foo"
 }, {
-    title: "foobar"
+    $set: {
+        title: "foobar"
+    }
 });
 
 var upsertedId = result.getUpsertedId();
