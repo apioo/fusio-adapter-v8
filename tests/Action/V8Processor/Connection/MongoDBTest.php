@@ -222,7 +222,9 @@ var connection = connector.get("mongodb");
 var result = connection.findOneAndUpdate("app_news", {
     title: "foo"
 }, {
-    title: "foobar"
+    $set: {
+        title: "foobar"
+    }
 }, {
     projection: {
         _id: 0,
@@ -259,7 +261,9 @@ var connection = connector.get("mongodb");
 var result = connection.findOneAndReplace("app_news", {
     title: "foo"
 }, {
-    title: "foobar"
+    $set: {
+        title: "foo"
+    }
 }, {
     projection: {
         _id: 0,
@@ -317,7 +321,8 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        "title": "foo"
+        "insertedCount": 1,
+        "acknowledged": true
     }
 }
 JSON;
@@ -354,7 +359,8 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        "title": "foo"
+        "insertedCount": 1,
+        "acknowledged": true
     }
 }
 JSON;
@@ -465,7 +471,8 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        "title": "foo"
+        "deletedCount": 1,
+        "acknowledged": true
     }
 }
 JSON;
@@ -498,7 +505,8 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        "title": "foo"
+        "deletedCount": 1,
+        "acknowledged": true
     }
 }
 JSON;
@@ -537,7 +545,10 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        "title": "foo"
+        "matchedCount": 1,
+        "modifiedCount": 1,
+        "upsertedCount": 0,
+        "acknowledged": true
     }
 }
 JSON;
