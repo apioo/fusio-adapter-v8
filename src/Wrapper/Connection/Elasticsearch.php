@@ -52,7 +52,7 @@ class Elasticsearch implements ObjectInterface
      */
     public function index($params)
     {
-        return $this->connection->index($this->convertToArray($params));
+        return $this->connection->index($params);
     }
 
     /**
@@ -61,7 +61,7 @@ class Elasticsearch implements ObjectInterface
      */
     public function get($params)
     {
-        return $this->connection->get($this->convertToArray($params));
+        return $this->connection->get($params);
     }
 
     /**
@@ -70,7 +70,7 @@ class Elasticsearch implements ObjectInterface
      */
     public function delete($params)
     {
-        return $this->connection->delete($this->convertToArray($params));
+        return $this->connection->delete($params);
     }
 
     /**
@@ -79,7 +79,7 @@ class Elasticsearch implements ObjectInterface
      */
     public function count($params)
     {
-        return $this->connection->count($this->convertToArray($params));
+        return $this->connection->count($params);
     }
 
     /**
@@ -88,7 +88,7 @@ class Elasticsearch implements ObjectInterface
      */
     public function exists($params)
     {
-        return $this->connection->exists($this->convertToArray($params));
+        return $this->connection->exists($params);
     }
 
     /**
@@ -97,7 +97,7 @@ class Elasticsearch implements ObjectInterface
      */
     public function create($params)
     {
-        return $this->connection->create($this->convertToArray($params));
+        return $this->connection->create($params);
     }
 
     /**
@@ -106,7 +106,7 @@ class Elasticsearch implements ObjectInterface
      */
     public function search($params)
     {
-        return $this->connection->search($this->convertToArray($params));
+        return $this->connection->search($params);
     }
 
     /**
@@ -115,7 +115,7 @@ class Elasticsearch implements ObjectInterface
      */
     public function update($params)
     {
-        return $this->connection->update($this->convertToArray($params));
+        return $this->connection->update($params);
     }
 
     public function getProperties()
