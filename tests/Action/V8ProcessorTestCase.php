@@ -35,67 +35,13 @@ use PSX\Record\Record;
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    http://fusio-project.org
  */
-abstract class V8ProcessorTestCase extends \PHPUnit_Extensions_Database_TestCase
+abstract class V8ProcessorTestCase extends \PHPUnit_Framework_TestCase
 {
     use EngineTestCaseTrait;
-
-    protected static $con;
-
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    protected $connection;
 
     protected function setUp()
     {
         parent::setUp();
-    }
-
-    protected function getConnection()
-    {
-        if (self::$con === null) {
-            self::$con = $this->newConnection();
-        }
-
-        if ($this->connection === null) {
-            $this->connection = self::$con;
-        }
-
-        return $this->createDefaultDBConnection($this->connection->getWrappedConnection(), 'database');
-    }
-
-    protected function getDataSet()
-    {
-        return $this->createFlatXMLDataSet(__DIR__ . '/../fixture.xml');
-    }
-
-    protected function newConnection()
-    {
-        $params = [
-            'memory' => true,
-            'driver' => 'pdo_sqlite',
-        ];
-
-        $config     = new Configuration();
-        $connection = DriverManager::getConnection($params, $config);
-
-        $fromSchema = $connection->getSchemaManager()->createSchema();
-        $toSchema   = new \Doctrine\DBAL\Schema\Schema();
-
-        $table = $toSchema->createTable('app_news');
-        $table->addColumn('id', 'integer', ['autoincrement' => true]);
-        $table->addColumn('title', 'string');
-        $table->addColumn('content', 'text');
-        $table->addColumn('tags', 'text', ['notnull' => false]);
-        $table->addColumn('date', 'datetime');
-        $table->setPrimaryKey(['id']);
-
-        $queries = $fromSchema->getMigrateToSql($toSchema, $connection->getDatabasePlatform());
-        foreach ($queries as $query) {
-            $connection->query($query);
-        }
-
-        return $connection;
     }
 
     /**

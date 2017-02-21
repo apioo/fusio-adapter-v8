@@ -21,9 +21,9 @@
 
 namespace Fusio\Adapter\V8\Tests\Action\V8Processor\Connection;
 
+use Fusio\Adapter\Sql\Connection\Sql;
 use Fusio\Adapter\V8\Tests\Action\V8ProcessorTestCase;
 use Fusio\Engine\Model\Connection;
-use Fusio\Engine\Test\CallbackConnection;
 
 /**
  * SqlTest
@@ -41,14 +41,19 @@ class SqlTest extends V8ProcessorTestCase
         $connection = new Connection();
         $connection->setId(1);
         $connection->setName('sql');
-        $connection->setClass(CallbackConnection::class);
+        $connection->setClass(Sql::class);
         $connection->setConfig([
-            'callback' => function(){
-                return $this->connection;
-            },
+            'dbname'   => 'app_news',
+            'user'     => 'root',
+            'password' => '',
+            'host'     => '127.0.0.1',
+            'driver'   => 'pdo_mysql',
         ]);
 
         $this->getConnectionRepository()->add($connection);
+
+        // add sql test data
+        $this->setUpFixture($connection->getConfig());
     }
 
     public function providerHandler()
@@ -86,11 +91,10 @@ JAVASCRIPT;
     "success": true,
     "result": [
         {
-            "content": "bar",
-            "date": "2015-02-27 19:59:15",
             "id": "1",
-            "tags": "[\"foo\",\"bar\"]",
-            "title": "foo"
+            "title": "foo",
+            "content": "bar",
+            "date": "2015-02-27 19:59:15"
         }
     ]
 }
@@ -121,11 +125,10 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        "content": "bar",
-        "date": "2015-02-27 19:59:15",
         "id": "1",
-        "tags": "[\"foo\",\"bar\"]",
-        "title": "foo"
+        "title": "foo",
+        "content": "bar",
+        "date": "2015-02-27 19:59:15"
     }
 }
 JSON;
@@ -186,5 +189,51 @@ JAVASCRIPT;
     "result": 1
 }
 JSON;
+    }
+
+    protected function setUpFixture(array $config)
+    {
+        $factory    = $this->getConnectionFactory()->factory(Sql::class);
+        /** @var $connection \Doctrine\DBAL\Connection */
+        $connection = $factory->getConnection($this->getParameters($config));
+
+        $fromSchema = $connection->getSchemaManager()->createSchema();
+        $toSchema   = new \Doctrine\DBAL\Schema\Schema();
+
+        $table = $toSchema->createTable('app_news');
+        $table->addColumn('id', 'integer', ['autoincrement' => true]);
+        $table->addColumn('title', 'string');
+        $table->addColumn('content', 'text');
+        $table->addColumn('date', 'datetime');
+        $table->setPrimaryKey(['id']);
+
+        $queries = $fromSchema->getMigrateToSql($toSchema, $connection->getDatabasePlatform());
+        foreach ($queries as $query) {
+            $connection->query($query);
+        }
+
+        $data = $this->getFixtures();
+        foreach ($data as $row) {
+            $connection->insert('app_news', $row);
+        }
+    }
+
+    protected function getFixtures()
+    {
+        $result = [];
+        $result[] = [
+            'id' => 1,
+            'title' => 'foo',
+            'content' => 'bar',
+            'date' => '2015-02-27 19:59:15',
+        ];
+        $result[] = [
+            'id' => 2,
+            'title' => 'bar',
+            'content' => 'foo',
+            'date' => '2015-02-27 19:59:15',
+        ];
+
+        return $result;
     }
 }

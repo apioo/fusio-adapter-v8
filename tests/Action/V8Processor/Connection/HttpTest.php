@@ -68,17 +68,17 @@ class HttpTest extends V8ProcessorTestCase
     public function providerHandler()
     {
         return [
-            [$this->getHttpCode(), 200, [], $this->getHttpBody()],
-            [$this->getHttpsCode(), 200, [], $this->getHttpsBody()],
+            [$this->getHttpCode('http'), 200, [], $this->getHttpBody('http')],
+            [$this->getHttpCode('https'), 200, [], $this->getHttpBody('https')],
         ];
     }
 
-    protected function getHttpCode()
+    protected function getHttpCode($scheme)
     {
         return <<<JAVASCRIPT
 
 // get http connection
-var connection = connector.get('http');
+var connection = connector.get('{$scheme}');
 
 var result = connection.request('GET', '/get?foo=bar', {"X-Custom-Header": "foo"});
 var getData = JSON.parse(result.getBody());
@@ -103,7 +103,7 @@ function cleanResponse(data) {
 JAVASCRIPT;
     }
 
-    protected function getHttpBody()
+    protected function getHttpBody($scheme)
     {
         return <<<JSON
 {
@@ -115,7 +115,7 @@ JAVASCRIPT;
       "Host": "httpbin.org",
       "X-Custom-Header": "foo"
     },
-    "url": "http://httpbin.org/get?foo=bar"
+    "url": "{$scheme}://httpbin.org/get?foo=bar"
   },
   "post": {
     "args": {},
@@ -130,70 +130,7 @@ JAVASCRIPT;
     "json": {
       "foo": "bar"
     },
-    "url": "http://httpbin.org/post"
-  }
-}
-JSON;
-    }
-
-    protected function getHttpsCode()
-    {
-        return <<<JAVASCRIPT
-
-// get http connection
-var connection = connector.get('https');
-
-var result = connection.request('GET', '/get?foo=bar', {"X-Custom-Header": "foo"});
-var getData = JSON.parse(result.getBody());
-getData = cleanResponse(getData);
-
-var result = connection.request('POST', '/post', {"Content-Type": "application/json"}, JSON.stringify({foo: "bar"}));
-var postData = JSON.parse(result.getBody());
-postData = cleanResponse(postData);
-
-response.setStatusCode(200);
-response.setBody({
-    get: getData,
-    post: postData
-});
-
-function cleanResponse(data) {
-    delete data['origin'];
-    delete data['headers']['User-Agent'];
-    return data;
-}
-
-JAVASCRIPT;
-    }
-
-    protected function getHttpsBody()
-    {
-        return <<<JSON
-{
-  "get": {
-    "args": {
-      "foo": "bar"
-    },
-    "headers": {
-      "Host": "httpbin.org",
-      "X-Custom-Header": "foo"
-    },
-    "url": "https://httpbin.org/get?foo=bar"
-  },
-  "post": {
-    "args": {},
-    "data": "{\"foo\":\"bar\"}",
-    "files": {},
-    "form": {},
-    "headers": {
-      "Content-Length": "13",
-      "Host": "httpbin.org",
-      "Content-Type": "application/json"
-    },
-    "json": {
-      "foo": "bar"
-    },
-    "url": "https://httpbin.org/post"
+    "url": "{$scheme}://httpbin.org/post"
   }
 }
 JSON;
