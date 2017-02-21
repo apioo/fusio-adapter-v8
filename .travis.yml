@@ -32,7 +32,6 @@ install:
   - composer install
 before_script:
   - beanstalkd -l 127.0.0.1 -p 11300 &
-  - mysql -e 'create database app;'
-  - sleep 8
+  - mysql -e 'create database app_news;'
 script:
   - vendor/bin/phpunit
