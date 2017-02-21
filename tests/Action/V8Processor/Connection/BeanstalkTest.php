@@ -43,11 +43,8 @@ class BeanstalkTest extends V8ProcessorTestCase
         $connection->setName('beanstalk');
         $connection->setClass(Beanstalk::class);
         $connection->setConfig([
-            'host'     => '127.0.0.1',
-            'port'     => 5672,
-            'user'     => 'guest',
-            'password' => 'guest',
-            'vhost'    => '/'
+            'host' => '127.0.0.1',
+            'port' => '',
         ]);
 
         $this->getConnectionRepository()->add($connection);
