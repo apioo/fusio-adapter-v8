@@ -87,6 +87,11 @@ JAVASCRIPT;
     "success": true,
     "result": {
         "GetGeoIPResult": {
+            "ReturnCode": 1,
+            "IP": "8.8.8.8",
+            "ReturnCodeDetails": "Success",
+            "CountryName": "United States",
+            "CountryCode": "USA"
         }
     }
 }
