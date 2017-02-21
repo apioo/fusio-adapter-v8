@@ -73,7 +73,7 @@ var result = connection.call("GetGeoIP", [{
 
 response.setStatusCode(200);
 response.setBody({
-    success: success,
+    success: true,
     result: result
 });
 
