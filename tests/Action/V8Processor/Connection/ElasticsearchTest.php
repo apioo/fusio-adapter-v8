@@ -289,29 +289,31 @@ JAVASCRIPT;
         },
         "hits": {
             "total": 2,
-            "max_score": 1,
+            "max_score": null,
             "hits": [{
                 "_index": "my_index",
                 "_type": "my_type",
-                "_id": "2",
-                "_score": 1,
-                "_source": {
-                    "id": "2",
-                    "title": "bar",
-                    "content": "foo",
-                    "date": "2015-02-27 19:59:15"
-                }
-            }, {
-                "_index": "my_index",
-                "_type": "my_type",
                 "_id": "1",
-                "_score": 1,
+                "_score": null,
                 "_source": {
-                    "id": "1",
+                    "id": 1,
                     "title": "foo",
                     "content": "bar",
                     "date": "2015-02-27 19:59:15"
-                }
+                },
+                "sort": [1]
+            }, {
+                "_index": "my_index",
+                "_type": "my_type",
+                "_id": "2",
+                "_score": null,
+                "_source": {
+                    "id": 2,
+                    "title": "bar",
+                    "content": "foo",
+                    "date": "2015-02-27 19:59:15"
+                },
+                "sort": [2]
             }]
         }
     }
