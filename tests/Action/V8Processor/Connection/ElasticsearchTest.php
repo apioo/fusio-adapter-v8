@@ -53,7 +53,6 @@ class ElasticsearchTest extends V8ProcessorTestCase
     {
         return [
             [$this->getIndexCode(), 200, [], $this->getIndexBody()],
-            /*
             [$this->getGetCode(), 200, [], $this->getGetBody()],
             [$this->getUpdateCode(), 200, [], $this->getUpdateBody()],
             [$this->getDeleteCode(), 200, [], $this->getDeleteBody()],
@@ -61,7 +60,6 @@ class ElasticsearchTest extends V8ProcessorTestCase
             [$this->getCountCode(), 200, [], $this->getCountBody()],
             [$this->getExistsCode(), 200, [], $this->getExistsBody()],
             [$this->getCreateCode(), 200, [], $this->getCreateBody()],
-            */
         ];
     }
 
@@ -72,8 +70,8 @@ class ElasticsearchTest extends V8ProcessorTestCase
 var connection = connector.get("elasticsearch");
 
 var result = connection.index({
-    index: "my_index",
-    type: "my_type",
+    index: "my_foo",
+    type: "my_bar",
     id: "my_id",
     body: {
         testField: "abc"
@@ -95,8 +93,8 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        "_index": "my_index",
-        "_type": "my_type",
+        "_index": "my_foo",
+        "_type": "my_bar",
         "_id": "my_id",
         "_version": 1,
         "result": "created",
@@ -120,7 +118,7 @@ var connection = connector.get("elasticsearch");
 var result = connection.get({
     index: "my_index",
     type: "my_type",
-    id: "my_id"
+    id: "1"
 });
 
 response.setStatusCode(200);
@@ -151,10 +149,10 @@ var connection = connector.get("elasticsearch");
 var result = connection.update({
     index: "my_index",
     type: "my_type",
-    id: "my_id",
+    id: "1",
     body: {
         doc: {
-            new_field: "abc"
+            title: "foobar"
         }
     }
 });
@@ -187,7 +185,7 @@ var connection = connector.get("elasticsearch");
 var result = connection.delete({
     index: "my_index",
     type: "my_type",
-    id: "my_id"
+    id: "1"
 });
 
 response.setStatusCode(200);
@@ -221,7 +219,7 @@ var result = connection.search({
     body: {
         query: {
             match: {
-                testField: "abc"
+                title: "foo"
             }
         }
     }
@@ -258,7 +256,7 @@ var result = connection.count({
     body: {
         query: {
             match: {
-                testField: "abc"
+                title: "foo"
             }
         }
     }
@@ -292,7 +290,7 @@ var connection = connector.get("elasticsearch");
 var result = connection.exists({
     index: "my_index",
     type: "my_type",
-    id: "my_id"
+    id: "1"
 });
 
 response.setStatusCode(200);
@@ -323,9 +321,9 @@ var connection = connector.get("elasticsearch");
 var result = connection.create({
     index: "my_index",
     type: "my_type",
-    id: "my_id",
+    id: "1",
     body: {
-        testField: "abc"
+        title: "foofoo"
     }
 });
 
@@ -346,5 +344,41 @@ JAVASCRIPT;
     "result": {}
 }
 JSON;
+    }
+
+    protected function setUpFixture(array $config)
+    {
+        $factory    = $this->getConnectionFactory()->factory(Elasticsearch::class);
+        /** @var $connection \Elasticsearch\Client */
+        $connection = $factory->getConnection($this->getParameters($config));
+
+        $result = $this->getFixtures();
+        foreach ($result as $row) {
+            $connection->index([
+                'index' => 'my_index',
+                'type' => 'my_type',
+                'id' => $row['id'],
+                'body' => $row,
+            ]);
+        }
+    }
+
+    protected function getFixtures()
+    {
+        $result = [];
+        $result[] = [
+            'id' => 1,
+            'title' => 'foo',
+            'content' => 'bar',
+            'date' => '2015-02-27 19:59:15',
+        ];
+        $result[] = [
+            'id' => 2,
+            'title' => 'bar',
+            'content' => 'foo',
+            'date' => '2015-02-27 19:59:15',
+        ];
+
+        return $result;
     }
 }
