@@ -10,6 +10,7 @@ services:
   - redis
   - mysql
 sudo: required
+dist: trusty
 env:
   - V8=5.8 PHP_V8=0.1.2
 before_install:
