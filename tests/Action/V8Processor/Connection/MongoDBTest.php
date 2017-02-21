@@ -59,6 +59,18 @@ class MongoDBTest extends V8ProcessorTestCase
         return [
             [$this->getAggregateCode(), 200, [], $this->getAggregateBody()],
             [$this->getFindCode(), 200, [], $this->getFindBody()],
+            [$this->getFindOneCode(), 200, [], $this->getFindOneBody()],
+            [$this->getFindOneAndDeleteCode(), 200, [], $this->getFindOneAndDeleteBody()],
+            [$this->getFindOneAndUpdateCode(), 200, [], $this->getFindOneAndUpdateBody()],
+            [$this->getFindOneAndReplaceCode(), 200, [], $this->getFindOneAndReplaceBody()],
+            [$this->getInsertOneCode(), 200, [], $this->getInsertOneBody()],
+            [$this->getInsertManyCode(), 200, [], $this->getInsertManyBody()],
+            [$this->getUpdateOneCode(), 200, [], $this->getUpdateOneBody()],
+            [$this->getUpdateManyCode(), 200, [], $this->getUpdateManyBody()],
+            [$this->getDeleteOneCode(), 200, [], $this->getDeleteOneBody()],
+            [$this->getDeleteManyCode(), 200, [], $this->getDeleteManyBody()],
+            [$this->getReplaceOneCode(), 200, [], $this->getReplaceOneBody()],
+            [$this->getCountCode(), 200, [], $this->getCountBody()],
         ];
     }
 
