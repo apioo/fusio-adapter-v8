@@ -255,6 +255,9 @@ var result = connection.search({
     index: "my_index",
     type: "my_type",
     body: {
+        sort: [
+            {"title": "asc"}
+        ],
         query: {
             match_all: {}
         }
