@@ -10,7 +10,6 @@ services:
   - redis
   - mysql
 sudo: required
-dist: trusty
 env:
   - V8=5.8 PHP_V8=0.1.2
 before_install:
@@ -33,5 +32,6 @@ install:
 before_script:
   - beanstalkd -l 127.0.0.1 -p 11300 &
   - mysql -e 'create database app;'
+  - sleep 8
 script:
   - vendor/bin/phpunit
