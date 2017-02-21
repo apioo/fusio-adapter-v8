@@ -212,6 +212,8 @@ JSON;
             $connection->query($query);
         }
 
+        $connection->executeUpdate('TRUNCATE app_news');
+
         $data = $this->getFixtures();
         foreach ($data as $row) {
             $connection->insert('app_news', $row);
