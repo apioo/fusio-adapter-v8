@@ -285,8 +285,8 @@ JAVASCRIPT;
             "failed": 0
         },
         "hits": {
-            "total": 0,
-            "max_score": null,
+            "total": 2,
+            "max_score": 1,
             "hits": [{
                 "_index": "my_index",
                 "_type": "my_type",
