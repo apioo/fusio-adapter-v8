@@ -94,7 +94,19 @@ JAVASCRIPT;
         return <<<JSON
 {
     "success": true,
-    "result": {}
+    "result": {
+        "_index": "my_index",
+        "_type": "my_type",
+        "_id": "my_id",
+        "_version": 1,
+        "result": "created",
+        "_shards": {
+            "total": 2,
+            "successful": 1,
+            "failed": 0
+        },
+        "created":true
+    }
 }
 JSON;
     }
