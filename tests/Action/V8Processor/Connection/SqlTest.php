@@ -43,11 +43,11 @@ class SqlTest extends V8ProcessorTestCase
         $connection->setName('sql');
         $connection->setClass(Sql::class);
         $connection->setConfig([
-            'dbname'   => 'app_news',
-            'user'     => 'root',
-            'password' => '',
+            'type'     => 'pdo_mysql',
             'host'     => '127.0.0.1',
-            'driver'   => 'pdo_mysql',
+            'username' => 'root',
+            'password' => '',
+            'database' => 'app_news',
         ]);
 
         $this->getConnectionRepository()->add($connection);
