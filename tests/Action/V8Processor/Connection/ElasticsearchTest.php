@@ -233,7 +233,7 @@ JAVASCRIPT;
         "_index": "my_foo",
         "_type": "my_bar",
         "_id": "my_id",
-        "_version": 6,
+        "_version": 2,
         "result": "deleted",
         "_shards": {
             "total": 2,
