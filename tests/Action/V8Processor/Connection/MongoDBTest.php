@@ -58,6 +58,7 @@ class MongoDBTest extends V8ProcessorTestCase
     {
         return [
             [$this->getAggregateCode(), 200, [], $this->getAggregateBody()],
+            [$this->getFindCode(), 200, [], $this->getFindBody()],
         ];
     }
 
@@ -92,6 +93,468 @@ JAVASCRIPT;
     },{
         "title" :"bar"
     }]
+}
+JSON;
+    }
+
+    protected function getFindCode()
+    {
+        return <<<'JAVASCRIPT'
+
+var connection = connector.get("mongodb");
+var result = connection.find("app_news", {}, {
+    projection: {
+        _id: 0,
+        title: 1
+    }
+});
+
+response.setStatusCode(200);
+response.setBody({
+    success: true,
+    result: result
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getFindBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": [{
+        "title": "foo"
+    },{
+        "title" :"bar"
+    }]
+}
+JSON;
+    }
+
+    protected function getFindOneCode()
+    {
+        return <<<'JAVASCRIPT'
+
+var connection = connector.get("mongodb");
+var result = connection.findOne("app_news", {
+    title: "foo"
+}, {
+    projection: {
+        _id: 0,
+        title: 1
+    }
+});
+
+response.setStatusCode(200);
+response.setBody({
+    success: true,
+    result: result
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getFindOneBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": {
+        "title": "foo"
+    }
+}
+JSON;
+    }
+
+    protected function getFindOneAndDeleteCode()
+    {
+        return <<<'JAVASCRIPT'
+
+var connection = connector.get("mongodb");
+var result = connection.findOneAndDelete("app_news", {
+    title: "foo"
+}, {
+    projection: {
+        _id: 0,
+        title: 1
+    }
+});
+
+response.setStatusCode(200);
+response.setBody({
+    success: true,
+    result: result
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getFindOneAndDeleteBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": {
+        "title": "foo"
+    }
+}
+JSON;
+    }
+
+    protected function getFindOneAndUpdateCode()
+    {
+        return <<<'JAVASCRIPT'
+
+var connection = connector.get("mongodb");
+var result = connection.findOneAndUpdate("app_news", {
+    title: "foo"
+}, {
+    title: "foobar"
+}, {
+    projection: {
+        _id: 0,
+        title: 1
+    }
+});
+
+response.setStatusCode(200);
+response.setBody({
+    success: true,
+    result: result
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getFindOneAndUpdateBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": {
+        "title": "foo"
+    }
+}
+JSON;
+    }
+    
+    protected function getFindOneAndReplaceCode()
+    {
+        return <<<'JAVASCRIPT'
+
+var connection = connector.get("mongodb");
+var result = connection.findOneAndReplace("app_news", {
+    title: "foo"
+}, {
+    title: "foobar"
+}, {
+    projection: {
+        _id: 0,
+        title: 1
+    }
+});
+
+response.setStatusCode(200);
+response.setBody({
+    success: true,
+    result: result
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getFindOneAndReplaceBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": {
+        "title": "foo"
+    }
+}
+JSON;
+    }
+    
+    protected function getInsertOneCode()
+    {
+        return <<<'JAVASCRIPT'
+
+var connection = connector.get("mongodb");
+var result = connection.insertOne("app_news", {
+    title: "foobar"
+});
+
+var insertId = result.getInsertedId();
+
+response.setStatusCode(200);
+response.setBody({
+    success: true,
+    result: {
+        insertedCount: result.getInsertedCount(),
+        acknowledged: result.isAcknowledged()
+    }
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getInsertOneBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": {
+        "title": "foo"
+    }
+}
+JSON;
+    }
+
+    protected function getInsertManyCode()
+    {
+        return <<<'JAVASCRIPT'
+
+var connection = connector.get("mongodb");
+var result = connection.insertMany("app_news", [{
+    title: "foobar"
+}, {
+    title: "foo bar"
+}]);
+
+var insertedIds = result.getInsertedIds();
+
+response.setStatusCode(200);
+response.setBody({
+    success: true,
+    result: {
+        insertedCount: result.getInsertedCount(),
+        acknowledged: result.isAcknowledged()
+    }
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getInsertManyBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": {
+        "title": "foo"
+    }
+}
+JSON;
+    }
+
+    protected function getUpdateOneCode()
+    {
+        return <<<'JAVASCRIPT'
+
+var connection = connector.get("mongodb");
+var result = connection.updateOne("app_news", {
+    title: "foo"
+}, {
+    title: "foobar"
+});
+
+var upsertedId = result.getUpsertedId();
+
+response.setStatusCode(200);
+response.setBody({
+    success: true,
+    result: {
+        matchedCount: result.getMatchedCount(),
+        modifiedCount: result.getModifiedCount(),
+        upsertedCount: result.getUpsertedCount(),
+        acknowledged: result.isAcknowledged()
+    }
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getUpdateOneBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": {
+        "title": "foo"
+    }
+}
+JSON;
+    }
+
+    protected function getUpdateManyCode()
+    {
+        return <<<'JAVASCRIPT'
+
+var connection = connector.get("mongodb");
+var result = connection.updateMany("app_news", {
+    title: "foo"
+}, {
+    title: "foobar"
+});
+
+var upsertedId = result.getUpsertedId();
+
+response.setStatusCode(200);
+response.setBody({
+    success: true,
+    result: {
+        matchedCount: result.getMatchedCount(),
+        modifiedCount: result.getModifiedCount(),
+        upsertedCount: result.getUpsertedCount(),
+        acknowledged: result.isAcknowledged()
+    }
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getUpdateManyBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": {
+        "title": "foo"
+    }
+}
+JSON;
+    }
+
+    protected function getDeleteOneCode()
+    {
+        return <<<'JAVASCRIPT'
+
+var connection = connector.get("mongodb");
+var result = connection.deleteOne("app_news", {
+    title: "foo"
+});
+
+response.setStatusCode(200);
+response.setBody({
+    success: true,
+    result: {
+        deletedCount: result.getDeletedCount(),
+        acknowledged: result.isAcknowledged()
+    }
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getDeleteOneBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": {
+        "title": "foo"
+    }
+}
+JSON;
+    }
+
+    protected function getDeleteManyCode()
+    {
+        return <<<'JAVASCRIPT'
+
+var connection = connector.get("mongodb");
+var result = connection.deleteOne("app_news", {
+    title: "foo"
+});
+
+response.setStatusCode(200);
+response.setBody({
+    success: true,
+    result: {
+        deletedCount: result.getDeletedCount(),
+        acknowledged: result.isAcknowledged()
+    }
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getDeleteManyBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": {
+        "title": "foo"
+    }
+}
+JSON;
+    }
+
+    protected function getReplaceOneCode()
+    {
+        return <<<'JAVASCRIPT'
+
+var connection = connector.get("mongodb");
+var result = connection.replaceOne("app_news", {
+    title: "foo"
+}, {
+    title: "foobar"
+});
+
+var upsertedId = result.getUpsertedId();
+
+response.setStatusCode(200);
+response.setBody({
+    success: true,
+    result: {
+        matchedCount: result.getMatchedCount(),
+        modifiedCount: result.getModifiedCount(),
+        upsertedCount: result.getUpsertedCount(),
+        acknowledged: result.isAcknowledged()
+    }
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getReplaceOneBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": {
+        "title": "foo"
+    }
+}
+JSON;
+    }
+
+    protected function getCountCode()
+    {
+        return <<<'JAVASCRIPT'
+
+var connection = connector.get("mongodb");
+var result = connection.count("app_news", {
+    title: "foo"
+});
+
+response.setStatusCode(200);
+response.setBody({
+    success: true,
+    result: result
+});
+
+JAVASCRIPT;
+    }
+
+    protected function getCountBody()
+    {
+        return <<<JSON
+{
+    "success": true,
+    "result": 1
 }
 JSON;
     }
