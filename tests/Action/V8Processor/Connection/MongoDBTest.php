@@ -357,7 +357,7 @@ JAVASCRIPT;
 {
     "success": true,
     "result": {
-        "insertedCount": 1,
+        "insertedCount": 2,
         "acknowledged": true
     }
 }
