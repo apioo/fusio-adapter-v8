@@ -113,7 +113,8 @@ JAVASCRIPT;
     },
     "headers": {
       "Host": "httpbin.org",
-      "X-Custom-Header": "foo"
+      "X-Custom-Header": "foo",
+      "Connection": "close"
     },
     "url": "{$scheme}://httpbin.org/get?foo=bar"
   },
@@ -125,7 +126,8 @@ JAVASCRIPT;
     "headers": {
       "Content-Length": "13",
       "Host": "httpbin.org",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Connection": "close"
     },
     "json": {
       "foo": "bar"
