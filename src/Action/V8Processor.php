@@ -21,16 +21,11 @@
 
 namespace Fusio\Adapter\V8\Action;
 
-use Fusio\Adapter\V8\Exception\ScriptException;
-use Fusio\Adapter\V8\Wrapper;
-use Fusio\Engine\ActionAbstract;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\Form\BuilderInterface;
 use Fusio\Engine\Form\ElementFactoryInterface;
 use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\RequestInterface;
-use PSX\V8\Environment;
-use V8\Exceptions\TryCatchException;
 
 /**
  * V8Processor
@@ -39,7 +34,7 @@ use V8\Exceptions\TryCatchException;
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    http://fusio-project.org
  */
-class V8Processor extends ActionAbstract
+class V8Processor extends V8Engine
 {
     public function getName()
     {
@@ -48,44 +43,9 @@ class V8Processor extends ActionAbstract
 
     public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
     {
-        if (!class_exists('V8\Context')) {
-            throw new \RuntimeException('It looks like the PHP V8 extension is not installed. Please take a look at https://github.com/pinepain/php-v8');
-        }
+        $this->setCode($configuration->get('code'));
 
-        $response = new Wrapper\Response();
-        $environment = new Environment();
-        $environment->set('request', new Wrapper\Request($request));
-        $environment->set('response', $response);
-        $environment->set('context', new Wrapper\Context($context));
-        $environment->set('connector', new Wrapper\Connector($this->connector));
-        $environment->set('processor', new Wrapper\Processor($this->processor, $context));
-        $environment->set('console', new Wrapper\Console($this->logger));
-        $environment->set('cache', new Wrapper\Cache($this->cache));
-
-        try {
-            $environment->run($configuration->get('code'));
-        } catch (TryCatchException $e) {
-            // if an error occurred inside a php function which was called from the js context
-            $previous = $e->getPrevious();
-            if ($previous instanceof \Exception) {
-                throw $previous;
-            }
-
-            // js errors
-            $tryCatch = $e->GetTryCatch();
-            if ($tryCatch->Message() !== null) {
-                $message = $tryCatch->Message();
-                throw new ScriptException($message->Get() . ' on line ' . $message->GetLineNumber());
-            }
-
-            throw $e;
-        }
-
-        return $this->response->build(
-            $response->getStatusCode(),
-            $response->getHeaders(),
-            $response->getBody()
-        );
+        return parent::handle($request, $configuration, $context);
     }
 
     public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
