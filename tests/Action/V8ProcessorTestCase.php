@@ -21,11 +21,9 @@
 
 namespace Fusio\Adapter\V8\Tests\Action;
 
-use Doctrine\DBAL\Configuration;
-use Doctrine\DBAL\DriverManager;
 use Fusio\Adapter\V8\Action\V8Processor;
-use Fusio\Engine\ResponseInterface;
 use Fusio\Engine\Test\EngineTestCaseTrait;
+use PSX\Http\Environment\HttpResponseInterface;
 use PSX\Record\Record;
 
 /**
@@ -70,7 +68,7 @@ abstract class V8ProcessorTestCase extends \PHPUnit_Framework_TestCase
 
         $actual = json_encode($response->getBody());
 
-        $this->assertInstanceOf(ResponseInterface::class, $response);
+        $this->assertInstanceOf(HttpResponseInterface::class, $response);
         $this->assertEquals($expectStatusCode, $response->getStatusCode());
         $this->assertEquals($expectHeaders, $response->getHeaders());
         $this->assertJsonStringEqualsJsonString($expectBody, $actual, $actual);
