@@ -22,7 +22,7 @@
 namespace Fusio\Adapter\V8\Wrapper;
 
 use Fusio\Engine\RequestInterface;
-use PSX\Data\Record\Transformer;
+use PSX\Record\Transformer;
 use PSX\V8\ObjectInterface;
 
 /**
@@ -61,7 +61,7 @@ class Request implements ObjectInterface
 
     public function getUriFragments()
     {
-        return $this->request->getUriFragments()->toArray();
+        return $this->request->getUriFragments();
     }
 
     public function getParameter($name)
@@ -71,12 +71,12 @@ class Request implements ObjectInterface
 
     public function getParameters()
     {
-        return $this->request->getParameters()->toArray();
+        return $this->request->getParameters();
     }
 
     public function getBody()
     {
-        return Transformer::toStdClass($this->request->getBody());
+        return Transformer::toObject($this->request->getBody());
     }
 
     public function getProperties()
