@@ -24,8 +24,8 @@ namespace Fusio\Adapter\V8\Wrapper;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\ProcessorInterface;
 use Fusio\Engine\Request as EngineRequest;
-use PSX\Data\Record\Transformer;
 use PSX\Http\Request as HttpRequest;
+use PSX\Record\Record;
 use PSX\Uri\Uri;
 use PSX\V8\ObjectInterface;
 
@@ -85,7 +85,7 @@ class Processor implements ObjectInterface
             $httpRequest,
             !empty($uriFragments) ? (array) $uriFragments : [],
             !empty($parameters) ? (array) $parameters : [],
-            Transformer::toRecord($body)
+            Record::from($body)
         );
     }
 }
