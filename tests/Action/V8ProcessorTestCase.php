@@ -23,6 +23,7 @@ namespace Fusio\Adapter\V8\Tests\Action;
 
 use Fusio\Adapter\V8\Action\V8Processor;
 use Fusio\Engine\Test\EngineTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 use PSX\Http\Environment\HttpResponseInterface;
 use PSX\Record\Record;
 
@@ -33,14 +34,9 @@ use PSX\Record\Record;
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    http://fusio-project.org
  */
-abstract class V8ProcessorTestCase extends \PHPUnit_Framework_TestCase
+abstract class V8ProcessorTestCase extends TestCase
 {
     use EngineTestCaseTrait;
-
-    protected function setUp()
-    {
-        parent::setUp();
-    }
 
     /**
      * @param string $code
