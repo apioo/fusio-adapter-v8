@@ -81,10 +81,10 @@ class V8Engine extends ActionAbstract
             }
 
             // js errors
-            $tryCatch = $e->GetTryCatch();
-            if ($tryCatch->Message() !== null) {
-                $message = $tryCatch->Message();
-                throw new ScriptException($message->Get() . ' on line ' . $message->GetLineNumber());
+            $tryCatch = $e->getTryCatch();
+            if ($tryCatch->getMessage() !== null) {
+                $message = $tryCatch->getMessage();
+                throw new ScriptException($message->get() . ' on line ' . $message->getLineNumber());
             }
 
             throw $e;
