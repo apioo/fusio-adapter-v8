@@ -35,4 +35,4 @@ before_script:
   - /tmp/elasticsearch-5.2.1/bin/elasticsearch &
   - sleep 12
 script:
-  - vendor/bin/phpunit --verbose
+  - vendor/bin/phpunit --debug
