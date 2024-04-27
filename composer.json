@@ -2,7 +2,6 @@
   "name": "fusio/adapter-v8",
   "description": "Write the endpoint logic in javascript using the V8 engine",
   "homepage": "http://fusio-project.org",
-  "keywords": ["fusio-adapter"],
   "license": "AGPL-3.0",
   "authors": [
     {
